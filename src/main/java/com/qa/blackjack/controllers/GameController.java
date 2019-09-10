@@ -29,11 +29,11 @@ public class GameController {
         if(userProfileRepository.findByName(profileName).isPresent()) {
             profile = userProfileRepository.findByName(profileName).get();
         } else {
-            return "no such user";
+            return "failure:[No Such User]";
         }
         deck = new Deck();
         shuffleDeck();
-        return profile.toString();
+        return "success";
     }
 
     private void shuffleDeck() {

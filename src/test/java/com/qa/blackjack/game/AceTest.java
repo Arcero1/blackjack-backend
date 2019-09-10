@@ -1,4 +1,4 @@
-package java.com.qa.blackjack;
+package com.qa.blackjack.game;
 
 import com.qa.blackjack.game.Ace;
 import org.junit.BeforeClass;

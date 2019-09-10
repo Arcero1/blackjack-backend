@@ -1,4 +1,4 @@
-package java.com.qa.blackjack;
+package com.qa.blackjack;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

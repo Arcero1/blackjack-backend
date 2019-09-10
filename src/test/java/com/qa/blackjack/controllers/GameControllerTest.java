@@ -1,6 +1,5 @@
-package java.com.qa.blackjack.controllers;
+package com.qa.blackjack.controllers;
 
-import com.qa.blackjack.controllers.GameController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
