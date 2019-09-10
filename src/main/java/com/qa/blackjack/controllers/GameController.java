@@ -18,11 +18,8 @@ public class GameController {
     private Deck deck;
     private UserProfile profile;
 
-    @Autowired
-    UserProfileRepository userProfileRepository;
-
-    @Autowired
-    UserAccountRepository userAccountRepository;
+    @Autowired UserProfileRepository userProfileRepository;
+    @Autowired UserAccountRepository userAccountRepository;
 
     @GetMapping("/api/game/start")
     public String start(@RequestParam String profileName) { // should only be called at the start of a session

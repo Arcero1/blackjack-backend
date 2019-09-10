@@ -9,7 +9,7 @@ import javax.naming.InvalidNameException;
 import static org.junit.Assert.assertEquals;
 
 public class AceTest {
-    static Ace ace;
+    private static Ace ace;
 
     @BeforeClass
     public static void getAce() throws InvalidNameException {

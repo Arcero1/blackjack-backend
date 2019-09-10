@@ -14,7 +14,7 @@ public class DeckTest {
     private static Deck deck;
 
     @BeforeClass
-    public static void getDeck() throws InvalidNameException {
+    public static void getDeck() {
         deck = new Deck();
     }
 
@@ -29,7 +29,7 @@ public class DeckTest {
     }
 
     @Test
-    public void shuffledDeckIsDifferentThanAFreshlyBuiltDeck() throws InvalidNameException {
+    public void shuffledDeckIsDifferentThanAFreshlyBuiltDeck() {
         Deck[] deck = new Deck[2];
         deck[0] = new Deck();
         deck[1] = new Deck();
@@ -39,7 +39,7 @@ public class DeckTest {
 
         for (int i = 0; i < 52; i++) {
             Card card[] = {deck[0].getCard(), deck[1].getCard()};
-            if(card[0].getName() == card[1].getName()) {
+            if(card[0].getName().equals(card[1].getName())) {
                 n++;
             }
         }
@@ -48,7 +48,7 @@ public class DeckTest {
     }
 
     @Test
-    public void twoShuffledDecksAreDifferentToEachOther() throws InvalidNameException {
+    public void twoShuffledDecksAreDifferentToEachOther() {
         Deck[] deck = new Deck[2];
         deck[0] = new Deck();
         deck[1] = new Deck();
@@ -57,8 +57,8 @@ public class DeckTest {
         int n = 0;
 
         for (int i = 0; i < 52; i++) {
-            Card card[] = {deck[0].getCard(), deck[1].getCard()};
-            if(card[0].getName() == card[1].getName()) {
+            Card[] card = {deck[0].getCard(), deck[1].getCard()};
+            if(card[0].getName().equals(card[1].getName())) {
                 n++;
             }
         }
@@ -67,7 +67,7 @@ public class DeckTest {
     }
 
     @Test
-    public void testHit() throws InvalidNameException {
+    public void testHit() {
         Deck deck = new Deck();
         Card nextCard = deck.getCard();
         System.out.println(nextCard.getId());
