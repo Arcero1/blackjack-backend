@@ -11,19 +11,21 @@ import java.sql.Timestamp;
 
 @Entity
 public class UserAccount {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private int id;
+    @NotBlank private String email;
+    @NotBlank private String password;
+    private Timestamp created_at;
+    private int games_played = 0;
+    private int games_won = 0;
+    private String alias = "";
+
     UserAccount() {}
-
-    public String getEmail() {
-        return email;
-    }
-
     UserAccount(String email, String password) {
         this.email = email;
         this.password = password;
         this.alias = email.substring(0, email.indexOf("@"));
         this.created_at = new Timestamp(System.currentTimeMillis());
     }
-
     UserAccount(String email, String password, String alias) {
         this.email = email;
         this.password = password;
@@ -31,35 +33,9 @@ public class UserAccount {
         this.created_at = new Timestamp(System.currentTimeMillis());
     }
 
-    public int getId() {
-        return id;
-    }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @NotBlank(message = "name is necessary")
-    private String email;
-
-    public String getPassword() {
-        return password;
-    }
-
-    @NotBlank(message = "pass is necessary")
-    private String password;
-
-    private Timestamp created_at;
-    private int games_played = 0;
-    private int games_won = 0;
-    private String alias = "";
-
     public void hasPlayed(boolean hasWon) {
         this.games_played++;
         this.games_won += hasWon ? 1 : 0;
-    }
-
-    public void setAlias(String alias) {
-        this.alias = alias;
     }
 
     public boolean comparePassword(String password) {
@@ -74,5 +50,19 @@ public class UserAccount {
         json.addProperty("games_won", games_won);
 
         return json;
+    }
+
+    // GETTERS AND SETTERS /////////////////////////////////////////////////////////////////////////////////////////////
+    public void setAlias(String alias) {
+        this.alias = alias;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public int getId() {
+        return id;
+    }
+    public String getPassword() {
+        return password;
     }
 }

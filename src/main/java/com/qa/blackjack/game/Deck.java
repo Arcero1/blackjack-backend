@@ -1,6 +1,8 @@
 package com.qa.blackjack.game;
 
 
+import com.qa.blackjack.util.ConstantsUtil;
+
 import javax.naming.InvalidNameException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +17,7 @@ public class Deck {
     private void rebuildDeck() {
         cards.clear();
 
-        Constants.SUITS.forEach(suit -> {
+        ConstantsUtil.SUITS.forEach(suit -> {
             try {
                 for (int i = 2; i < 11; i++) {
                     cards.add(new Card(String.valueOf(i), suit));

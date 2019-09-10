@@ -7,20 +7,9 @@ import javax.validation.constraints.NotBlank;
 
 @Entity
 public class UserProfile {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @NotBlank(message = "name is necessary")
-    private String name;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private int id;
+    @NotBlank private String name;
     private int uid = 1;
-
-    public int getOwnerId() {
-        return uid;
-    }
-    public int getCredits() {
-        return credits;
-    }
-
     private int credits = 300;
 
     public UserProfile() {
@@ -33,21 +22,8 @@ public class UserProfile {
         this.uid = uid;
     }
 
-    @Override
-    public String toString() {
-        return "Name: " + name + ", Credits: " + credits + "\n";
-    }
-
     public void addCredits(int credits) {
         this.credits += credits;
-    }
-
-    public UserProfile deleteUserAccountReference() {
-        return this;
-    }
-
-    UserProfile get() {
-    return this;
     }
 
     public JsonObject toJSON() {
@@ -57,8 +33,14 @@ public class UserProfile {
         json.addProperty("uid", this.uid);
         json.addProperty("credits", this.credits);
 
-        // json.add(); to get a nested object
-
         return json;
+    }
+
+    // GETTERS AND SETTERS /////////////////////////////////////////////////////////////////////////////////////////////
+    public int getOwnerId() {
+        return uid;
+    }
+    public int getCredits() {
+        return credits;
     }
 }

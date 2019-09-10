@@ -73,10 +73,7 @@ public class UserProfileController {
 
     // UPDATE //////////////////////////////////////////////////////////////////////////////////////////////////////////
     void removeAllReferencesToUserAccount(UserAccount account) {
-        userProfileRepository.findAllByUid(account.getId())
-                .ifPresent(userProfiles ->
-                        userProfiles.forEach(UserProfile::deleteUserAccountReference)
-        );
+
     }
 
     // DELETE //////////////////////////////////////////////////////////////////////////////////////////////////////////
