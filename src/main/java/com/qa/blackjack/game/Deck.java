@@ -7,6 +7,8 @@ import javax.naming.InvalidNameException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.qa.blackjack.util.ConstantsUtil.CARD_VALUES;
+
 public class Deck {
     private List<Card> cards = new ArrayList<>();
 
@@ -17,24 +19,17 @@ public class Deck {
     private void rebuildDeck() {
         cards.clear();
 
-        ConstantsUtil.SUITS.forEach(suit -> {
+        ConstantsUtil.SUITS.forEach(suit -> CARD_VALUES.forEach((key, value) -> {
             try {
-                for (int i = 2; i < 11; i++) {
-                    cards.add(new Card(String.valueOf(i), suit));
-                }
-                cards.add(new Card("Jack", suit));
-                cards.add(new Card("Queen", suit));
-                cards.add(new Card("King", suit));
-                cards.add(new Ace(suit));
-
+                cards.add(new Card(key, suit));
             } catch (InvalidNameException e) {
                 e.printStackTrace();
             }
-        });
+        }));
     }
 
     public void shuffle() {
-        List<Card> shuffledCards = new ArrayList<Card>();
+        List<Card> shuffledCards = new ArrayList<>();
         while (cards.size() > 0) {
             shuffledCards.add(cards.remove((int) (Math.random() * cards.size())));
         }
