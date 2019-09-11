@@ -8,7 +8,7 @@ public class Card {
     private String name;
     private String suit = "";
 
-    public Card(String name, String suit) throws InvalidNameException {
+    Card(String name, String suit) throws InvalidNameException {
         setName(name);
         setSuit(suit);
     }
@@ -26,22 +26,8 @@ public class Card {
         return id + (suit.isEmpty() ? "" : suit.substring(0, 1));
     }
 
-    private int cardValue() {
-        return CARD_VALUES.get(this.name);
-    }
-
-    private void setSuit(String suit) throws InvalidNameException {
-        if(!SUITS.contains(suit)) throw new InvalidNameException();
-        this.suit = suit;
-    }
-
-    private void setName(String name) throws InvalidNameException {
-        if(!CARD_VALUES.containsKey(name)) throw new InvalidNameException();
-        this.name = name;
-    }
-
     public int getValue() {
-        return cardValue();
+        return CARD_VALUES.get(this.name);
     }
     String getName() {
         return this.name;
@@ -49,5 +35,15 @@ public class Card {
 
     public String toString() {
         return this.name + (!this.suit.equals("") ? " of " + this.suit : "");
+    }
+
+    // UTILITY FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////
+    private void setSuit(String suit) throws InvalidNameException {
+        if(!SUITS.contains(suit)) throw new InvalidNameException();
+        this.suit = suit;
+    }
+    private void setName(String name) throws InvalidNameException {
+        if(!CARD_VALUES.containsKey(name)) throw new InvalidNameException();
+        this.name = name;
     }
 }
