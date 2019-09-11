@@ -18,8 +18,14 @@ public class GameController {
     private Deck deck;
     private UserProfile profile;
 
+    private UserAccountRepository userAccountRepository;
+
+    @Autowired
+    public final void setUserAccountRepository(UserAccountRepository userAccountRepository) {
+        this.userAccountRepository = userAccountRepository;
+    }
+
     @Autowired UserProfileRepository userProfileRepository;
-    @Autowired UserAccountRepository userAccountRepository;
 
     @GetMapping("/api/game/start")
     public String start(@RequestParam String profileName) { // should only be called at the start of a session
@@ -29,12 +35,8 @@ public class GameController {
             return "failure:[No Such User]";
         }
         deck = new Deck();
-        shuffleDeck();
-        return "success";
-    }
-
-    private void shuffleDeck() {
         deck.shuffle();
+        return "success";
     }
 
     @GetMapping("/api/game/bet")

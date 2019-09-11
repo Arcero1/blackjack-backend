@@ -10,7 +10,6 @@ import static org.junit.Assert.assertEquals;
 
 public class CardTest {
     private String testSuit = "Hearts";
-    private String testCard = "King";
 
     @Test(expected = InvalidNameException.class)
     public void testCardThrowsExceptionForInvalidSuit() throws InvalidNameException {
@@ -19,7 +18,7 @@ public class CardTest {
             randomString = RandomStringUtils.randomAlphabetic(0, 20);
         } while(!SUITS.contains(randomString));
 
-        new Card(testCard, randomString);
+        new Card("King", randomString);
     }
 
     @Test(expected = InvalidNameException.class)

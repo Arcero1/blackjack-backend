@@ -1,25 +1,23 @@
 package com.qa.blackjack.game;
 
-import com.qa.blackjack.game.Card;
-import com.qa.blackjack.game.Deck;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import javax.naming.InvalidNameException;
 
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class DeckTest {
-    private static Deck deck;
 
-    @BeforeClass
-    public static void getDeck() {
-        deck = new Deck();
+    @Test
+    public void testGetCardGivesACard() {
+        assertNotNull(new Deck().getCard());
     }
 
     @Test
-    public void freshBuiltDeckHas_52_CardsWithValuesBetween_1_And_11() {
+    public void freshBuiltDeckHas52CardsWithValuesBetween1And11() {
+        Deck deck = new Deck();
+
         for (int i = 0; i < 52; i++) {
             Card card = deck.getCard();
             System.out.println(card.getName());
@@ -38,7 +36,7 @@ public class DeckTest {
         int n = 0;
 
         for (int i = 0; i < 52; i++) {
-            Card card[] = {deck[0].getCard(), deck[1].getCard()};
+            Card[] card = {deck[0].getCard(), deck[1].getCard()};
             if(card[0].getName().equals(card[1].getName())) {
                 n++;
             }
@@ -64,13 +62,6 @@ public class DeckTest {
         }
         System.out.println("Cards in same places : " + n);
         assertTrue("Shuffling yielded the same result both times", n < 52);
-    }
-
-    @Test
-    public void testHit() {
-        Deck deck = new Deck();
-        Card nextCard = deck.getCard();
-        System.out.println(nextCard.getId());
     }
 
     // NOTE: for the last two tests, there is a probabilistically insignificant chance of n being 0 even if the
