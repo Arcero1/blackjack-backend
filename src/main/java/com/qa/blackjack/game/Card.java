@@ -43,7 +43,7 @@ public class Card {
     public int getValue() {
         return cardValue();
     }
-    public String getName() {
+    String getName() {
         return this.name;
     }
 

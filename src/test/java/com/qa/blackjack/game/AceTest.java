@@ -1,11 +1,15 @@
 package com.qa.blackjack.game;
 
 import com.qa.blackjack.game.Ace;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import javax.naming.InvalidNameException;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
+import static com.qa.blackjack.util.ConstantsUtil.SUITS;
 import static org.junit.Assert.assertEquals;
 
 public class AceTest {
@@ -20,7 +24,6 @@ public class AceTest {
     public void aceHasANativeValueOf11() {
         assertEquals(11, ace.getValue());
     }
-
 
     @Test
     public void aceHasValueOf_11_WithAnArgumentOf_10_OrLess() {

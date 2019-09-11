@@ -29,6 +29,6 @@ public class GameControllerTest {//    private GameController controller;
         assertThat(this.restTemplate.getForObject(
                 "http://localhost:" + port + "/api/game/start?profileName=test",
                 String.class
-        )).contains("Name: test, Credits: 3000");
+        )).contains("success");
     }
 }
