@@ -35,7 +35,7 @@ public class UserProfileController {
     // CREATE //////////////////////////////////////////////////////////////////////////////////////////////////////////
     @GetMapping(baseURL + "create")
     public String createUserProfile(@RequestParam String name, @RequestParam String userName) { // functional
-        if(!validateProfileName(name).equals(SUCCESS_GENERIC)) {
+        if(validateProfileName(name).equals(SUCCESS_GENERIC)) {
             return FAILURE_GENERIC + ":[PROFILE ALREADY EXISTS]";
         }
 
