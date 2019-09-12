@@ -38,12 +38,12 @@ public class GameController {
 
     @GetMapping("/api/game/bet")
     public String bet(@RequestParam int betAmount) {
-        if (betAmount > profile.getCredits()) {
-            return "not enough credits";
+        if (betAmount >= 0 && betAmount > profile.getCredits()) {
+            return msgNotEnough("CREDITS");
         }
         this.betAmount = betAmount;
         this.resetScores();
-        return msgNotEnough("CREDITS");
+        return SUCCESS_GENERIC;
     }
 
     @GetMapping("/api/game/hit")
