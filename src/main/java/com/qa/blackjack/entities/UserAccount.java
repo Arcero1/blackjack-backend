@@ -1,6 +1,8 @@
 package com.qa.blackjack.entities;
 
 import com.google.gson.JsonObject;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,19 +21,14 @@ public class UserAccount {
     private int games_won = 0;
     private String alias = "";
 
+    @Contract(pure = true)
     UserAccount() {}
-    UserAccount(String email, String password) {
-        this.email = email;
-        this.password = password;
-        this.alias = email.substring(0, email.indexOf("@"));
-        this.created_at = new Timestamp(System.currentTimeMillis());
-    }
-    UserAccount(String email, String password, String alias) {
-        this.email = email;
-        this.password = password;
-        this.alias = alias;
-        this.created_at = new Timestamp(System.currentTimeMillis());
-    }
+
+    @Contract(pure = true)
+    UserAccount(@NotNull String email, String password) {}
+
+    @Contract(pure = true)
+    UserAccount(String email, String password, String alias) {}
 
     public void hasPlayed(boolean hasWon) {
         this.games_played++;

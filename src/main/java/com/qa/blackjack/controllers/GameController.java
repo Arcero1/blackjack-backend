@@ -33,7 +33,7 @@ public class GameController {
         }
         deck = new Pack(4);
         deck.shuffle();
-        return "";
+        return SUCCESS_GENERIC;
     }
 
     @GetMapping("/api/game/bet")
