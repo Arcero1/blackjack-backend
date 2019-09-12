@@ -10,15 +10,9 @@ import java.util.List;
 import static com.qa.blackjack.util.ConstantsUtil.CARD_VALUES;
 
 public class Deck {
-    private List<Card> cards = new ArrayList<>();
+    List<Card> cards = new ArrayList<>();
 
-    public Deck() {
-        rebuildDeck();
-    }
-
-    private void rebuildDeck() {
-        cards.clear();
-
+    Deck() {
         ConstantsUtil.SUITS.forEach(suit -> CARD_VALUES.forEach((key, value) -> {
             try {
                 cards.add(new Card(key, suit));
@@ -40,8 +34,12 @@ public class Deck {
         try {
             return cards.remove(0);
         } catch (IndexOutOfBoundsException e) {
-            System.out.println("Deck is out of cards.");
+            e.printStackTrace();
         }
         return null;
+    }
+
+    List<Card> getAllCards() {
+        return cards;
     }
 }

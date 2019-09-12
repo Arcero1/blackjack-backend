@@ -15,8 +15,8 @@ public class CardTest {
     public void testCardThrowsExceptionForInvalidSuit() throws InvalidNameException {
         String randomString;
         do {
-            randomString = RandomStringUtils.randomAlphabetic(0, 20);
-        } while(!SUITS.contains(randomString));
+            randomString = RandomStringUtils.randomAlphanumeric(0, 20);
+        } while(SUITS.contains(randomString));
 
         new Card("King", randomString);
     }
@@ -26,7 +26,7 @@ public class CardTest {
         String randomString;
         do {
             randomString = RandomStringUtils.randomAlphabetic(0, 20);
-        } while(!CARD_VALUES.containsKey(randomString));
+        } while(CARD_VALUES.containsKey(randomString));
 
         new Card(randomString, testSuit);
     }

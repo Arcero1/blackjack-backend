@@ -8,7 +8,10 @@ import com.qa.blackjack.repositories.UserProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
+import static com.qa.blackjack.util.MessageUtil.*;
 
 /**
  * UserProfileController class requires the implementation of the following:
@@ -26,27 +29,34 @@ import java.util.concurrent.atomic.AtomicInteger;
 @RestController
 public class UserProfileController {
     private final String baseURL = "/api/profiles/";
-    @Autowired
-    UserProfileRepository userProfileRepository;
-    @Autowired
-    UserAccountRepository userAccountRepository;
+    private UserAccountRepository userAccountRepository;
+    private UserProfileRepository userProfileRepository;
 
     // CREATE //////////////////////////////////////////////////////////////////////////////////////////////////////////
     @GetMapping(baseURL + "create")
     public String createUserProfile(@RequestParam String name, @RequestParam String userName) { // functional
-        userProfileRepository.save(new UserProfile(name, userAccountRepository.findByEmail(userName).get().getId()));
-        return "done";
+        if(!validateProfileName(name).equals(SUCCESS_GENERIC)) {
+            return FAILURE_GENERIC + ":[PROFILE ALREADY EXISTS]";
+        }
+
+        Optional<UserAccount> owner = userAccountRepository.findByEmail(userName);
+        int ownerID = owner.map(UserAccount::getId).orElse(1);
+        // userID 1 is the id of user "root" -> foreign key for all unbound profiles
+        userProfileRepository.save(new UserProfile(name, ownerID));
+
+        return SUCCESS_GENERIC;
     }
 
     @GetMapping(baseURL + "credits")
     public String getProfileCredits(@RequestParam String name) { // functional
-        return userProfileRepository.findByName(name).isPresent() ? String.valueOf(userProfileRepository.findByName(name).get().getCredits()) : "failure:[PROFILE NOT FOUND]";
+        Optional<UserProfile> profile = userProfileRepository.findByName(name);
+        return profile.map(UserProfile::getCreditsAsString).orElse(msgItemNotFound("PROFILE"));
     }
 
     // READ ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @GetMapping(baseURL + "validate")
     public String validateProfileName(@RequestParam String name) {
-        return userProfileRepository.findByName(name).isPresent() ? "success" : "failure:[PROFILE NOT FOUND]";
+        return userProfileRepository.findByName(name).isPresent() ? SUCCESS_GENERIC : msgItemNotFound("PROFILE");
     }
 
     @GetMapping(baseURL + "leaderboard")
@@ -72,8 +82,22 @@ public class UserProfileController {
     }
 
     // UPDATE //////////////////////////////////////////////////////////////////////////////////////////////////////////
-    void removeAllReferencesToUserAccount(UserAccount account) {
+    private void removeReference(UserProfile profile) {
+        profile.setUid(1);
+        userProfileRepository.save(profile);
+    }
 
+    void removeReference(String name) {
+        Optional<UserProfile> profile = userProfileRepository.findByName(name);
+        if(profile.isPresent()) {
+            UserProfile p = profile.get();
+            removeReference(p);
+        }
+    }
+
+    void removeAllReferencesToUserAccount(UserAccount account) {
+        Optional<List<UserProfile>> profiles = userProfileRepository.findAllByUid(account.getId());
+        profiles.ifPresent(userProfiles -> userProfiles.forEach(this::removeReference));
     }
 
     // DELETE //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -81,8 +105,18 @@ public class UserProfileController {
     public String deleteUserProfile(@RequestParam String name) { // functional
         if(userProfileRepository.findByName(name).isPresent()) {
             userProfileRepository.delete(userProfileRepository.findByName(name).get());
-            return "done";
+            return SUCCESS_GENERIC;
         }
-        return "no such profile";
+        return msgItemNotFound("USER");
+    }
+
+    // SETTER BASED DEPENDENCY INJECTION FOR REPOSITORIES //////////////////////////////////////////////////////////////
+    @Autowired
+    public final void setUserAccountRepository(UserAccountRepository userAccountRepository) {
+        this.userAccountRepository = userAccountRepository;
+    }
+    @Autowired
+    public final void setUserProfileRepository(UserProfileRepository userProfileRepository) {
+        this.userProfileRepository = userProfileRepository;
     }
 }

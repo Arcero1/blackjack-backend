@@ -14,9 +14,6 @@ public class UserProfile {
 
     public UserProfile() {
     }
-    public UserProfile(String name) {
-        this.name = name;
-    }
     public UserProfile(String name, int uid) {
         this.name = name;
         this.uid = uid;
@@ -42,5 +39,11 @@ public class UserProfile {
     }
     public int getCredits() {
         return credits;
+    }
+    public String getCreditsAsString() {
+        return "" + credits;
+    }
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 }
