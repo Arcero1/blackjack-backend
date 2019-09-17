@@ -1,6 +1,5 @@
 package com.qa.blackjack.controllers;
 
-import com.google.gson.JsonObject;
 import com.qa.blackjack.entities.LeaderBoardEntry;
 import com.qa.blackjack.entities.UserAccount;
 import com.qa.blackjack.entities.UserProfile;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
 import static com.qa.blackjack.util.MessageUtil.*;
 
 /**
