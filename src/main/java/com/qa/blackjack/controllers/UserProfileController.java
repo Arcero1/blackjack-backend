@@ -1,5 +1,6 @@
 package com.qa.blackjack.controllers;
 
+import com.qa.blackjack.packets.CreateProfileRequest;
 import com.qa.blackjack.packets.LeaderBoardEntry;
 import com.qa.blackjack.entities.UserAccount;
 import com.qa.blackjack.entities.UserProfile;
@@ -34,13 +35,16 @@ public class UserProfileController {
 
     // CREATE //////////////////////////////////////////////////////////////////////////////////////////////////////////
     @PostMapping(baseURL + "create")
-    public String createUserProfile(@RequestBody UserProfile profile) { // functional
-        if(validateProfileName(profile.getName()).equals(SUCCESS_GENERIC)) {
+    public String createUserProfile(@RequestBody CreateProfileRequest request) { // functional
+        if(validateProfileName(request.getName()).equals(SUCCESS_GENERIC)) {
             return FAILURE_GENERIC + ":[PROFILE ALREADY EXISTS]";
         }
 
         // userID 1 is the id of user "root" -> foreign key for all unbound profiles
-        userProfileRepository.save(new UserProfile(profile.getName(), profile.getOwnerId()));
+        userProfileRepository.save(new UserProfile(
+                request.getName(),
+                userAccountRepository.findByEmail(request.getOwner()).get().getId()
+        ));
         return SUCCESS_GENERIC;
     }
 
