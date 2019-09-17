@@ -1,6 +1,7 @@
 package com.qa.blackjack.controllers;
 
 import com.google.gson.JsonObject;
+import com.qa.blackjack.entities.LeaderBoardEntry;
 import com.qa.blackjack.entities.UserAccount;
 import com.qa.blackjack.entities.UserProfile;
 import com.qa.blackjack.repositories.UserAccountRepository;
@@ -8,6 +9,7 @@ import com.qa.blackjack.repositories.UserProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -29,28 +31,25 @@ import static com.qa.blackjack.util.MessageUtil.*;
 @RestController
 public class UserProfileController {
     private final String baseURL = "/api/profiles/";
-    private UserAccountRepository userAccountRepository;
     private UserProfileRepository userProfileRepository;
+    private UserAccountRepository userAccountRepository;
 
     // CREATE //////////////////////////////////////////////////////////////////////////////////////////////////////////
-    @GetMapping(baseURL + "create")
-    public String createUserProfile(@RequestParam String name, @RequestParam String userName) { // functional
-        if(validateProfileName(name).equals(SUCCESS_GENERIC)) {
+    @PostMapping(baseURL + "create")
+    public String createUserProfile(@RequestBody UserProfile profile) { // functional
+        if(validateProfileName(profile.getName()).equals(SUCCESS_GENERIC)) {
             return FAILURE_GENERIC + ":[PROFILE ALREADY EXISTS]";
         }
 
-        Optional<UserAccount> owner = userAccountRepository.findByEmail(userName);
-        int ownerID = owner.map(UserAccount::getId).orElse(1);
         // userID 1 is the id of user "root" -> foreign key for all unbound profiles
-        userProfileRepository.save(new UserProfile(name, ownerID));
-
+        userProfileRepository.save(new UserProfile(profile.getName(), profile.getOwnerId()));
         return SUCCESS_GENERIC;
     }
 
     @GetMapping(baseURL + "credits")
     public String getProfileCredits(@RequestParam String name) { // functional
         Optional<UserProfile> profile = userProfileRepository.findByName(name);
-        return profile.map(UserProfile::getCreditsAsString).orElse(msgItemNotFound("PROFILE"));
+        return profile.map(UserProfile::creditsToString).orElse(msgItemNotFound("PROFILE"));
     }
 
     // READ ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -60,25 +59,19 @@ public class UserProfileController {
     }
 
     @GetMapping(baseURL + "leaderboard")
-    public String getLeaderboard() { // functional
-        JsonObject json = new JsonObject();
+    public List<LeaderBoardEntry> getLeaderboard() { // functional
+        List<LeaderBoardEntry> leaders = new ArrayList<>();
+        userProfileRepository.findTop10ByOrderByCreditsDesc().get().forEach(profile -> {
+            leaders.add(generateLeaderBoardEntry(profile));
+                }
+        );
 
-        AtomicInteger i = new AtomicInteger();
-        userProfileRepository.findTop10ByOrderByCreditsDesc()
-                .ifPresent(element -> element
-                .forEach(el -> json.add("user" + i.getAndIncrement(), el.toJSON())));
-        return json.toString();
+        return leaders;
     }
 
     @GetMapping(baseURL + "myProfiles")
-    public String getAllProfilesOfUser(@RequestParam int uid) { // functional
-        JsonObject json = new JsonObject();
-
-        AtomicInteger i = new AtomicInteger();
-        userProfileRepository.findAllByUid(uid)
-                .ifPresent(element -> element
-                        .forEach(el -> json.add(String.valueOf(i.getAndIncrement()), el.toJSON())));
-        return json.toString();
+    public List<UserProfile> getAllProfilesOfUser(@RequestParam int uid) { // functional
+        return userProfileRepository.findAllByUid(uid).get();
     }
 
     // UPDATE //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -110,13 +103,20 @@ public class UserProfileController {
         return msgItemNotFound("USER");
     }
 
-    // SETTER BASED DEPENDENCY INJECTION FOR REPOSITORIES //////////////////////////////////////////////////////////////
-    @Autowired
-    public final void setUserAccountRepository(UserAccountRepository userAccountRepository) {
-        this.userAccountRepository = userAccountRepository;
+    private LeaderBoardEntry generateLeaderBoardEntry(UserProfile profile) {
+        return new LeaderBoardEntry(
+                profile,
+                userAccountRepository.findById(profile.getOwnerId()).get().getAlias()
+        );
     }
+
+    // SETTER BASED DEPENDENCY INJECTION FOR REPOSITORIES //////////////////////////////////////////////////////////////
     @Autowired
     public final void setUserProfileRepository(UserProfileRepository userProfileRepository) {
         this.userProfileRepository = userProfileRepository;
+    }
+    @Autowired
+    public final void setUserAccountRepository(UserAccountRepository userAccountRepository) {
+        this.userAccountRepository = userAccountRepository;
     }
 }

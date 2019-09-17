@@ -19,6 +19,11 @@ public class UserAccount {
     private Timestamp created_at;
     private int games_played = 0;
     private int games_won = 0;
+
+    public String getAlias() {
+        return alias;
+    }
+
     private String alias = "";
 
     @Contract(pure = true)
