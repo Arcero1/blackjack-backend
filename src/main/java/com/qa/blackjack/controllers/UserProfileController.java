@@ -1,6 +1,6 @@
 package com.qa.blackjack.controllers;
 
-import com.qa.blackjack.entities.LeaderBoardEntry;
+import com.qa.blackjack.packets.LeaderBoardEntry;
 import com.qa.blackjack.entities.UserAccount;
 import com.qa.blackjack.entities.UserProfile;
 import com.qa.blackjack.repositories.UserAccountRepository;

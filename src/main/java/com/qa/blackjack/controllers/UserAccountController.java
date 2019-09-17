@@ -1,7 +1,9 @@
 package com.qa.blackjack.controllers;
 
 import com.qa.blackjack.entities.UserAccount;
+import com.qa.blackjack.packets.PasswordChangeRequest;
 import com.qa.blackjack.repositories.UserAccountRepository;
+import com.qa.blackjack.packets.UserAccountResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,9 +43,8 @@ public class UserAccountController {
 
     // READ ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @GetMapping(URL + "info")
-    public String getUserInfo(@RequestParam String email) {
-        Optional<UserAccount> user = userAccountRepository.findByEmail(email);
-        return user.isPresent() ? user.get().toPublicJSON().toString() : "failure:[USER NOT FOUND]";
+    public UserAccountResponse getUserInfo(@RequestParam String email) {
+        return new UserAccountResponse(userAccountRepository.findByEmail(email).get());
     }
 
     @GetMapping(URL + "validate/email")
@@ -59,21 +60,31 @@ public class UserAccountController {
     }
 
     // UPDATE //////////////////////////////////////////////////////////////////////////////////////////////////////////
-    @GetMapping(URL + "setAlias")
-    public String setAlias(@RequestParam int id, @RequestParam String alias) { // functional
-        Optional<UserAccount> userOptional = userAccountRepository.findById(id);
+    @PostMapping(URL + "setAlias")
+    public String setAlias(@RequestBody UserAccount user) { // functional
+        Optional<UserAccount> userOptional = userAccountRepository.findByEmail(user.getEmail());
         if (!userOptional.isPresent()) {
             return "failure:[USER NOT FOUND]";
         }
-        UserAccount user = userOptional.get();
-        user.setAlias(alias);
-        userAccountRepository.save(user);
+        UserAccount userPersistent = userOptional.get();http://localhost:8080/api/profiles/create
+        if (!userPersistent.comparePassword(user.getPassword())) {
+            return "failure:[INCORRECT PASSWORD]";
+        }
+
+        userPersistent.setAlias(user.getAlias());
+        userAccountRepository.save(userPersistent);
         return "success";
     }
 
-    @GetMapping(URL + "changePassword")
-    public String changePassword() {
-        return "";
+    @PostMapping(URL + "changePassword")
+    public String changePassword(@RequestBody PasswordChangeRequest request) {
+        UserAccount user = userAccountRepository.findByEmail(request.getEmail()).get();
+        if (user.comparePassword(request.getOldPassword())) {
+            user.setPassword(request.getNewPassword());
+            userAccountRepository.save(user);
+            return "success";
+        }
+        return "failure:[INCORRECT PASSWORD]";
     }
 
     // DELETE //////////////////////////////////////////////////////////////////////////////////////////////////////////

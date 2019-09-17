@@ -1,8 +1,6 @@
 package com.qa.blackjack.entities;
 
 import com.google.gson.JsonObject;
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,54 +15,55 @@ public class UserAccount {
     @NotBlank private String email;
     @NotBlank private String password;
     private Timestamp created_at;
-    private int games_played = 0;
-    private int games_won = 0;
-
-    public String getAlias() {
-        return alias;
-    }
-
+    private int gamesPlayed = 0;
+    private int gamesWon = 0;
     private String alias = "";
 
-    @Contract(pure = true)
     UserAccount() {}
-
-    @Contract(pure = true)
-    UserAccount(@NotNull String email, String password) {}
-
-    @Contract(pure = true)
-    UserAccount(String email, String password, String alias) {}
+    UserAccount(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+    UserAccount(String email, String password, String alias) {
+        this.email = email;
+        this.password = password;
+        this.alias = alias;
+    }
 
     public void hasPlayed(boolean hasWon) {
-        this.games_played++;
-        this.games_won += hasWon ? 1 : 0;
+        this.gamesPlayed++;
+        this.gamesWon += hasWon ? 1 : 0;
     }
 
     public boolean comparePassword(String password) {
         return password.equals(this.password);
     }
 
-    public JsonObject toPublicJSON() {
-        JsonObject json = new JsonObject();
-        json.addProperty("alias", alias);
-        json.addProperty("created_at", String.valueOf(this.created_at));
-        json.addProperty("games_played", games_played);
-        json.addProperty("games_won", games_won);
-
-        return json;
-    }
-
     // GETTERS AND SETTERS /////////////////////////////////////////////////////////////////////////////////////////////
     public void setAlias(String alias) {
         this.alias = alias;
     }
-    public String getEmail() {
-        return email;
+    public void setPassword(String password) {
+        this.password = password;
     }
+
     public int getId() {
         return id;
     }
+    public String getAlias() {
+        return alias;
+    }
+    public String getEmail() {
+        return email;
+    }
     public String getPassword() {
         return password;
+    }
+
+    public int getGamesPlayed() {
+        return gamesPlayed;
+    }
+    public int getGamesWon() {
+        return gamesWon;
     }
 }
