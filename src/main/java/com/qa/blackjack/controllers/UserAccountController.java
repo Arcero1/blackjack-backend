@@ -66,10 +66,7 @@ public class UserAccountController {
         if (!userOptional.isPresent()) {
             return "failure:[USER NOT FOUND]";
         }
-        UserAccount userPersistent = userOptional.get();http://localhost:8080/api/profiles/create
-        if (!userPersistent.comparePassword(user.getPassword())) {
-            return "failure:[INCORRECT PASSWORD]";
-        }
+        UserAccount userPersistent = userOptional.get();
 
         userPersistent.setAlias(user.getAlias());
         userAccountRepository.save(userPersistent);

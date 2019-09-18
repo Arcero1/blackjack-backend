@@ -72,8 +72,8 @@ public class UserProfileController {
     }
 
     @GetMapping(baseURL + "myProfiles")
-    public List<UserProfile> getAllProfilesOfUser(@RequestParam int uid) { // functional
-        return userProfileRepository.findAllByUid(uid).get();
+    public List<UserProfile> getAllProfilesOfUser(@RequestParam String email) { // functional
+        return userProfileRepository.findAllByUid(userAccountRepository.findByEmail(email).get().getId()).get();
     }
 
     // UPDATE //////////////////////////////////////////////////////////////////////////////////////////////////////////
