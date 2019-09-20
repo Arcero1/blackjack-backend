@@ -41,14 +41,6 @@ public class CardTest {
     }
 
     @Test
-    public void test_toString_GivesNameAndSuit() throws InvalidNameException {
-        assertEquals("King of Diamonds", new Card("King", "Diamonds").toString());
-        assertEquals("Queen of Spades", new Card("Queen", "Spades").toString());
-        assertEquals("10 of Clubs", new Card("10", "Clubs").toString());
-        assertEquals("3 of Hearts", new Card("3", "Hearts").toString());
-    }
-
-    @Test
     public void testCardIdIsCorrect() throws InvalidNameException {
         assertEquals("10S", new Card("10", "Spades").getId());
         assertEquals("5D", new Card("5", "Diamonds").getId());

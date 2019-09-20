@@ -34,8 +34,4 @@ public class Card {
     String getName() {
         return this.name;
     }
-
-    public String toString() {
-        return this.name + (!this.suit.equals("") ? " of " + this.suit : "");
-    }
 }
