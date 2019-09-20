@@ -31,7 +31,4 @@ public class Card {
     public int getValue() {
         return CARD_VALUES.get(this.name);
     }
-    String getName() {
-        return this.name;
-    }
 }
