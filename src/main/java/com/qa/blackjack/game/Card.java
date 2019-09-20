@@ -9,8 +9,9 @@ public class Card {
     private String suit;
 
     Card(String name, String suit) throws InvalidNameException {
-        if(!CARD_VALUES.containsKey(name)) throw new InvalidNameException();
-        if(!SUITS.contains(suit)) throw new InvalidNameException();
+        if(!CARD_VALUES.containsKey(name) || !SUITS.contains(suit)) throw new InvalidNameException();
+
+        this.name = name;
         this.suit = suit;
     }
 
@@ -21,10 +22,10 @@ public class Card {
             Integer.parseInt(name);
             id = name;
         } catch (NumberFormatException e) {
-            id = name.substring(0, 1);
+            id = "" + name.charAt(0);
         }
 
-        return id + (suit.isEmpty() ? "" : suit.substring(0, 1));
+        return id + (suit.isEmpty() ? "" : suit.charAt(0));
     }
 
     public int getValue() {
