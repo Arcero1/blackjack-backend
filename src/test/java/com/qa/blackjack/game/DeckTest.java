@@ -20,7 +20,6 @@ public class DeckTest {
 
         for (int i = 0; i < 52; i++) {
             Card card = deck.getCard();
-            System.out.println(card.getName());
             assertTrue(card.getValue() <= 11 && card.getValue() >= 1);
         }
         assertNull("deck is populated incorrectly",deck.getCard());
@@ -37,7 +36,7 @@ public class DeckTest {
 
         for (int i = 0; i < 52; i++) {
             Card[] card = {deck[0].getCard(), deck[1].getCard()};
-            if(card[0].getName().equals(card[1].getName())) {
+            if(card[0].toString().equals(card[1].toString())) {
                 n++;
             }
         }
@@ -56,7 +55,7 @@ public class DeckTest {
 
         for (int i = 0; i < 52; i++) {
             Card[] card = {deck[0].getCard(), deck[1].getCard()};
-            if(card[0].getName().equals(card[1].getName())) {
+            if(card[0].toString().equals(card[1].toString())) {
                 n++;
             }
         }
