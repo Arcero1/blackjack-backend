@@ -1,12 +1,12 @@
-package com.qa.blackjack.packets;
+package com.qa.blackjack.account;
 
-public class PasswordChangeRequest {
+public class UserAccountRequestPasswordChange {
     private String email;
     private String oldPassword;
     private String newPassword;
 
-    PasswordChangeRequest() {}
-    PasswordChangeRequest(String email, String newPassword, String oldPassword) {
+    UserAccountRequestPasswordChange() {}
+    UserAccountRequestPasswordChange(String email, String newPassword, String oldPassword) {
         this.email = email;
         this.oldPassword = oldPassword;
         this.newPassword = newPassword;

@@ -1,14 +1,12 @@
-package com.qa.blackjack.packets;
+package com.qa.blackjack.account;
 
-        import com.qa.blackjack.entities.UserAccount;
-
-public class UserAccountResponse {
+public class UserAccountPublicInfo {
     private int id;
     private String alias;
     private int gamesPlayed;
     private int gamesWon;
 
-    public UserAccountResponse(UserAccount user) {
+    public UserAccountPublicInfo(UserAccount user) {
         this.id = user.getId();
         this.alias = user.getAlias();
         this.gamesPlayed = user.getGamesPlayed();

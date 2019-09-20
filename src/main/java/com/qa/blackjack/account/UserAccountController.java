@@ -1,13 +1,10 @@
-package com.qa.blackjack.controllers;
+package com.qa.blackjack.account;
 
-import com.qa.blackjack.entities.UserAccount;
-import com.qa.blackjack.packets.PasswordChangeRequest;
-import com.qa.blackjack.repositories.UserAccountRepository;
-import com.qa.blackjack.packets.UserAccountResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.qa.blackjack.util.MessageUtil.SUCCESS_GENERIC;
@@ -28,13 +25,13 @@ import static com.qa.blackjack.util.MessageUtil.SUCCESS_GENERIC;
  */
 @CrossOrigin
 @RestController
+@RequestMapping("/api/users/")
 public class UserAccountController {
-    private final String URL = "/api/users/";
     private UserAccountRepository userAccountRepository;
 
     // CREATE //////////////////////////////////////////////////////////////////////////////////////////////////////////
-    @PostMapping(URL + "create")
-    public String createUserAccountPOST(@RequestBody UserAccount user) {
+    @PostMapping("create")
+    public String createAccount(@RequestBody UserAccount user) {
         if (validateEmail(user.getEmail()).equals(SUCCESS_GENERIC)) return "failure:[ACCOUNT EXISTS]";
         user.setAlias(user.getEmail().substring(0, user.getEmail().indexOf("@")));
         userAccountRepository.save(user);
@@ -42,17 +39,17 @@ public class UserAccountController {
     }
 
     // READ ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    @GetMapping(URL + "info")
-    public UserAccountResponse getUserInfo(@RequestParam String email) {
-        return new UserAccountResponse(userAccountRepository.findByEmail(email).get());
+    @GetMapping("info")
+    public UserAccountPublicInfo getPublicAccountInfo(@RequestParam String email) throws Exception {
+        return new UserAccountPublicInfo(userAccountRepository.findByEmail(email).orElseThrow(() -> new Exception("DAMN")));
     }
 
-    @GetMapping(URL + "validate/email")
+    @GetMapping("validate/email")
     public String validateEmail(@RequestParam String email) { // functional
         return userAccountRepository.findByEmail(email).isPresent() ? "success" : "failure:[USER NOT FOUND]";
     }
 
-    @PostMapping(URL + "validate/password")
+    @PostMapping("validate/password")
     public String validatePassword(@RequestBody UserAccount user) { // functional
         return userAccountRepository.findByEmail(user.getEmail())
                 .map(userAccount -> userAccount.comparePassword(user.getPassword()) ? "success" : "failure:[WRONG PASSWORD]")
@@ -60,8 +57,8 @@ public class UserAccountController {
     }
 
     // UPDATE //////////////////////////////////////////////////////////////////////////////////////////////////////////
-    @PostMapping(URL + "setAlias")
-    public String setAlias(@RequestBody UserAccount user) { // functional
+    @PostMapping("setAlias")
+    public String setAccountAlias(@RequestBody UserAccount user) { // functional
         Optional<UserAccount> userOptional = userAccountRepository.findByEmail(user.getEmail());
         if (!userOptional.isPresent()) {
             return "failure:[USER NOT FOUND]";
@@ -73,8 +70,8 @@ public class UserAccountController {
         return "success";
     }
 
-    @PostMapping(URL + "changePassword")
-    public String changePassword(@RequestBody PasswordChangeRequest request) {
+    @PostMapping("changePassword")
+    public String changeAccountPassword(@RequestBody UserAccountRequestPasswordChange request) {
         UserAccount user = userAccountRepository.findByEmail(request.getEmail()).get();
         if (user.comparePassword(request.getOldPassword())) {
             user.setPassword(request.getNewPassword());
@@ -85,16 +82,13 @@ public class UserAccountController {
     }
 
     // DELETE //////////////////////////////////////////////////////////////////////////////////////////////////////////
-    @PostMapping(URL + "delete")
-    public String delete(@RequestBody UserAccount user) { // functional
+    @PostMapping("delete")
+    public String deleteAccount(@RequestBody UserAccount user) { // functional
         if (!validatePassword(user).equals("success")) {
             return validatePassword(user);
         } else {
             Optional<UserAccount> usersOptional = userAccountRepository.findByEmail(user.getEmail());
-            usersOptional.ifPresent(userAccount -> {
-                //new UserProfileController().deleteAllReferences(userAccount);
-                userAccountRepository.delete(userAccount);
-            });
+            usersOptional.ifPresent(userAccountRepository::delete);
             return "success";
         }
     }

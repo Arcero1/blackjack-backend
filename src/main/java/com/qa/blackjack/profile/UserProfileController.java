@@ -1,11 +1,7 @@
-package com.qa.blackjack.controllers;
+package com.qa.blackjack.profile;
 
-import com.qa.blackjack.packets.CreateProfileRequest;
-import com.qa.blackjack.packets.LeaderBoardEntry;
-import com.qa.blackjack.entities.UserAccount;
-import com.qa.blackjack.entities.UserProfile;
-import com.qa.blackjack.repositories.UserAccountRepository;
-import com.qa.blackjack.repositories.UserProfileRepository;
+import com.qa.blackjack.account.UserAccount;
+import com.qa.blackjack.account.UserAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,14 +24,14 @@ import static com.qa.blackjack.util.MessageUtil.*;
  */
 @CrossOrigin
 @RestController
+@RequestMapping("/api/profiles/")
 public class UserProfileController {
-    private final String baseURL = "/api/profiles/";
     private UserProfileRepository userProfileRepository;
     private UserAccountRepository userAccountRepository;
 
     // CREATE //////////////////////////////////////////////////////////////////////////////////////////////////////////
-    @PostMapping(baseURL + "create")
-    public String createUserProfile(@RequestBody CreateProfileRequest request) { // functional
+    @PostMapping("create")
+    public String createProfile(@RequestBody UserProfileRequestCreate request) { // functional
         if(validateProfileName(request.getName()).equals(SUCCESS_GENERIC)) {
             return FAILURE_GENERIC + ":[PROFILE ALREADY EXISTS]";
         }
@@ -48,21 +44,21 @@ public class UserProfileController {
         return SUCCESS_GENERIC;
     }
 
-    @GetMapping(baseURL + "credits")
+    @GetMapping("credits")
     public String getProfileCredits(@RequestParam String name) { // functional
         Optional<UserProfile> profile = userProfileRepository.findByName(name);
         return profile.map(UserProfile::creditsToString).orElse(msgItemNotFound("PROFILE"));
     }
 
     // READ ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    @GetMapping(baseURL + "validate")
+    @GetMapping("validate")
     public String validateProfileName(@RequestParam String name) {
         return userProfileRepository.findByName(name).isPresent() ? SUCCESS_GENERIC : msgItemNotFound("PROFILE");
     }
 
-    @GetMapping(baseURL + "leaderboard")
-    public List<LeaderBoardEntry> getLeaderboard() { // functional
-        List<LeaderBoardEntry> leaders = new ArrayList<>();
+    @GetMapping("leaderboard")
+    public List<UserProfileLeaderBoard> getLeaderboard() { // functional
+        List<UserProfileLeaderBoard> leaders = new ArrayList<>();
         userProfileRepository.findTop10ByOrderByCreditsDesc().get().forEach(profile -> {
             leaders.add(generateLeaderBoardEntry(profile));
                 }
@@ -71,32 +67,13 @@ public class UserProfileController {
         return leaders;
     }
 
-    @GetMapping(baseURL + "myProfiles")
+    @GetMapping("myProfiles")
     public List<UserProfile> getAllProfilesOfUser(@RequestParam String email) { // functional
         return userProfileRepository.findAllByUid(userAccountRepository.findByEmail(email).get().getId()).get();
     }
 
-    // UPDATE //////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private void removeReference(UserProfile profile) {
-        profile.setUid(1);
-        userProfileRepository.save(profile);
-    }
-
-    void removeReference(String name) {
-        Optional<UserProfile> profile = userProfileRepository.findByName(name);
-        if(profile.isPresent()) {
-            UserProfile p = profile.get();
-            removeReference(p);
-        }
-    }
-
-    void removeAllReferencesToUserAccount(UserAccount account) {
-        Optional<List<UserProfile>> profiles = userProfileRepository.findAllByUid(account.getId());
-        profiles.ifPresent(userProfiles -> userProfiles.forEach(this::removeReference));
-    }
-
     // DELETE //////////////////////////////////////////////////////////////////////////////////////////////////////////
-    @GetMapping(baseURL + "delete")
+    @GetMapping("delete")
     public String deleteUserProfile(@RequestParam String name) { // functional
         if(userProfileRepository.findByName(name).isPresent()) {
             userProfileRepository.delete(userProfileRepository.findByName(name).get());
@@ -105,8 +82,8 @@ public class UserProfileController {
         return msgItemNotFound("USER");
     }
 
-    private LeaderBoardEntry generateLeaderBoardEntry(UserProfile profile) {
-        return new LeaderBoardEntry(
+    private UserProfileLeaderBoard generateLeaderBoardEntry(UserProfile profile) {
+        return new UserProfileLeaderBoard(
                 profile,
                 userAccountRepository.findById(profile.getOwnerId()).get().getAlias()
         );

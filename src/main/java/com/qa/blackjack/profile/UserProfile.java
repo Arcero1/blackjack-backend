@@ -1,8 +1,4 @@
-package com.qa.blackjack.entities;
-
-import com.google.gson.JsonObject;
-import com.qa.blackjack.repositories.UserAccountRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+package com.qa.blackjack.profile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -10,11 +6,6 @@ import javax.validation.constraints.NotBlank;
 @Entity
 public class UserProfile {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private int id;
-
-    public String getName() {
-        return name;
-    }
-
     @NotBlank private String name;
     private int uid = 1;
     private int credits = 300;
@@ -27,6 +18,11 @@ public class UserProfile {
     public UserProfile(String name, int uid) {
         this.name = name;
         this.uid = uid;
+    }
+
+
+    public String getName() {
+        return name;
     }
 
     public void addCredits(int credits) {

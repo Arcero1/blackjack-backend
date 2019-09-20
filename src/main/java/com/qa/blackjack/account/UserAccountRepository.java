@@ -1,7 +1,5 @@
-package com.qa.blackjack.repositories;
+package com.qa.blackjack.account;
 
-import com.qa.blackjack.entities.UserAccount;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

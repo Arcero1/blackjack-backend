@@ -1,9 +1,6 @@
 package com.qa.blackjack.game;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
-
-import javax.naming.InvalidNameException;
 
 import static org.junit.Assert.*;
 
@@ -15,7 +12,12 @@ public class DeckTest {
     }
 
     @Test
-    public void freshBuiltDeckHas52CardsWithValuesBetween1And11() {
+    public void deckHas52Cards() {
+        assertEquals(52, new Deck().getAllCards().size());
+    }
+
+    @Test
+    public void deckHasCardsWithValuesBetween1And11() {
         Deck deck = new Deck();
 
         for (int i = 0; i < 52; i++) {

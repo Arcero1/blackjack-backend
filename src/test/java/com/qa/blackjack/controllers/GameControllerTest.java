@@ -1,7 +1,6 @@
 package com.qa.blackjack.controllers;
 
-import org.junit.Before;
-import org.junit.Test;
+import com.qa.blackjack.GameController;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,10 +1,10 @@
-package com.qa.blackjack.controllers;
+package com.qa.blackjack;
 
-import com.qa.blackjack.entities.UserProfile;
+import com.qa.blackjack.profile.UserProfile;
 import com.qa.blackjack.game.Card;
 import com.qa.blackjack.game.Pack;
-import com.qa.blackjack.repositories.UserAccountRepository;
-import com.qa.blackjack.repositories.UserProfileRepository;
+import com.qa.blackjack.account.UserAccountRepository;
+import com.qa.blackjack.profile.UserProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,10 +37,8 @@ public class GameController {
     }
 
     @GetMapping("/api/game/bet")
-    public String bet(@RequestParam int betAmount) {
-        if (betAmount >= 0 && betAmount > profile.getCredits()) {
-            return msgNotEnough("CREDITS");
-        }
+    public String bet(@RequestParam int betAmount) throws Exception {
+        if (betAmount >= 0 && betAmount > profile.getCredits()) throw new Exception("not enough credits");
         this.betAmount = betAmount;
         this.resetScores();
         return SUCCESS_GENERIC;

@@ -1,5 +1,6 @@
 package com.qa.blackjack.controllers;
 
+import com.qa.blackjack.profile.UserProfileController;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
