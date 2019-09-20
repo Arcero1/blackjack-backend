@@ -50,7 +50,7 @@ public class GameController {
     public String hit() {
         Card nextCard = deck.getCard();
         playerTotal += nextCard.getValue();
-        return nextCard.getId();
+        return nextCard.toString();
     }
 
     @GetMapping("/api/game/dealer/hit")
@@ -58,7 +58,7 @@ public class GameController {
         try {
             Card nextCard = deck.getCard();
             dealerTotal += nextCard.getValue();
-            return nextCard.getId();
+            return nextCard.toString();
         } catch (NullPointerException e) {
             return SUCCESS_GENERIC;
         }

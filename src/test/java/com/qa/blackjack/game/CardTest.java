@@ -42,13 +42,13 @@ public class CardTest {
 
     @Test
     public void testCardIdIsCorrect() throws InvalidNameException {
-        assertEquals("10S", new Card("10", "Spades").getId());
-        assertEquals("5D", new Card("5", "Diamonds").getId());
-        assertEquals("2C", new Card("2", "Clubs").getId());
-        assertEquals("9H", new Card("9", "Hearts").getId());
-        assertEquals("KC", new Card("King", "Clubs").getId());
-        assertEquals("QD", new Card("Queen", "Diamonds").getId());
-        assertEquals("JH", new Card("Jack", "Hearts").getId());
-        assertEquals("AS", new Card("Ace", "Spades").getId());
+        assertEquals("10S", new Card("10", "Spades").toString());
+        assertEquals("5D", new Card("5", "Diamonds").toString());
+        assertEquals("2C", new Card("2", "Clubs").toString());
+        assertEquals("9H", new Card("9", "Hearts").toString());
+        assertEquals("KC", new Card("King", "Clubs").toString());
+        assertEquals("QD", new Card("Queen", "Diamonds").toString());
+        assertEquals("JH", new Card("Jack", "Hearts").toString());
+        assertEquals("AS", new Card("Ace", "Spades").toString());
     }
 }

@@ -15,7 +15,7 @@ public class Card {
         this.suit = suit;
     }
 
-    public String getId() {
+    public String toString() {
         String id;
 
         try {
