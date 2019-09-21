@@ -32,7 +32,6 @@ public class UserAccountController {
     // CREATE //////////////////////////////////////////////////////////////////////////////////////////////////////////
     @PostMapping("create")
     public String createAccount(@RequestBody UserAccount user) {
-        if (validateEmail(user.getEmail()).equals(SUCCESS_GENERIC)) return "failure:[ACCOUNT EXISTS]";
         user.setAlias(user.getEmail().substring(0, user.getEmail().indexOf("@")));
         userAccountRepository.save(user);
         return "success";

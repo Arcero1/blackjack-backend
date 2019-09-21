@@ -31,16 +31,13 @@ import static org.mockito.Mockito.when;
 public class GameControllerTest {//    private GameController controller;
     @InjectMocks
     UserAccountController controller = new UserAccountController();
-    @LocalServerPort
-    private int port;
-    @Autowired
-    private TestRestTemplate restTemplate;
-    @MockBean
+    @Mock
     UserAccountRepository repository;
 
     @Test
     public void testGetAllNotes() throws Exception {
         UserAccount note = new UserAccount("frank@aplace", "pass");
+        System.out.println(note.getEmail());
         when(repository.save(note)).thenReturn(note);
         controller.createAccount(note);
     }
