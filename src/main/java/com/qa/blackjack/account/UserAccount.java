@@ -35,10 +35,10 @@ public class UserAccount {
     }
 
     // GETTERS AND SETTERS /////////////////////////////////////////////////////////////////////////////////////////////
-    void setAlias(String alias) {
+    public void setAlias(String alias) {
         this.alias = alias;
     }
-    void setPassword(String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 

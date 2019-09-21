@@ -1,4 +1,4 @@
-package com.qa.blackjack.controllers;
+package com.qa.blackjack.account;
 
 import com.qa.blackjack.profile.UserProfileController;
 import org.junit.runner.RunWith;
