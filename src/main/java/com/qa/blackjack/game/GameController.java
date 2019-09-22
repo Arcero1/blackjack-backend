@@ -1,24 +1,22 @@
-package com.qa.blackjack;
+package com.qa.blackjack.game;
 
 import com.qa.blackjack.error.ApiError;
 import com.qa.blackjack.error.ApiResponse;
 import com.qa.blackjack.error.ApiSuccess;
 import com.qa.blackjack.profile.UserProfile;
-import com.qa.blackjack.game.Card;
-import com.qa.blackjack.game.Pack;
 import com.qa.blackjack.account.UserAccountRepository;
 import com.qa.blackjack.profile.UserProfileRepository;
 import com.qa.blackjack.util.ApiErrorMessage;
+import com.qa.blackjack.util.ApiStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import static com.qa.blackjack.util.MessageUtil.*;
 
 @CrossOrigin
 @RestController
 public class GameController {
-    private int playerTotal = 0;
-    private int dealerTotal = 0;
+    private Hand player = new Hand();
+    private Hand dealer = new Hand();
     private int betAmount = 0;
 
     private Pack deck;
@@ -29,6 +27,8 @@ public class GameController {
 
     @GetMapping("/api/game/start")
     public ApiResponse start(@RequestParam String profileName) { // should only be called at the start of a session
+
+        this.resetScores();
 
         if (userProfileRepository.findByName(profileName).isPresent()) {
             profile = userProfileRepository.findByName(profileName).get();
@@ -52,7 +52,7 @@ public class GameController {
     public ApiResponse hit() {
         try {
             Card nextCard = deck.getCard();
-            playerTotal += nextCard.getValue();
+            player.addCard(nextCard);
             return new ApiSuccess(nextCard.toString());
         } catch (NullPointerException e) {
             return new ApiError(ApiErrorMessage.OUT_OF_CARDS);
@@ -63,8 +63,16 @@ public class GameController {
     public ApiResponse dealerHit() {
         try {
             Card nextCard = deck.getCard();
-            dealerTotal += nextCard.getValue();
+            dealer.addCard(nextCard);
+
+            int dealerTotal = dealer.getScore();
+
+            if (dealerTotal > 17) {
+                return new ApiSuccess(ApiStatus.DEALER_DONE, nextCard.toString());
+            }
+
             return new ApiSuccess(nextCard.toString());
+
         } catch (NullPointerException e) {
             return new ApiError(ApiErrorMessage.OUT_OF_CARDS);
         }
@@ -81,17 +89,23 @@ public class GameController {
     // CHECKS //////////////////////////////////////////////////////////////////////////////////////////////////////////
     @GetMapping("/api/game/pollBust")
     public ApiResponse checkIfPlayerIsBust() {
-        return new ApiSuccess(playerTotal < 22 ? "safe" : "bust");
+        return new ApiSuccess(player.getScore() < 22 ? "safe" : "bust");
     }
 
-    // UTILITY METHODS /////////////////////////////////////////////////////////////////////////////////////////////////
     private boolean hasPlayerWon() {
-        return playerTotal > dealerTotal && playerTotal < 22;
+        int playerTotal = player.getScore();
+        int dealerTotal = dealer.getScore();
+
+        boolean winCondition1 = playerTotal > dealerTotal && playerTotal < 22;
+        boolean winCondition2 = playerTotal == 21 && dealerTotal == 21 && player.getNumCards() == 2 && dealer.getNumCards() != 2;
+        boolean winCondition3 = playerTotal < 22 & dealerTotal > 21;
+        return winCondition1 || winCondition2 || winCondition3;
     }
 
     private void resetScores() {
-        playerTotal = 0;
-        dealerTotal = 0;
+
+        player = new Hand();
+        dealer = new Hand();
     }
 
     private void updateBank() {

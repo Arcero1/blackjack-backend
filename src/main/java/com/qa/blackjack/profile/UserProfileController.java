@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
-import static com.qa.blackjack.util.MessageUtil.*;
 
 /**
  * UserProfileController class requires the implementation of the following:

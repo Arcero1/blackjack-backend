@@ -32,4 +32,8 @@ public class Card {
     public int getValue() {
         return CARD_VALUES.get(this.name);
     }
+
+    public boolean isAce() {
+        return this.name.equals("Ace");
+    }
 }
