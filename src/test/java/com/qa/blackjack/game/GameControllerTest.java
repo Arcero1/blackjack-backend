@@ -1,4 +1,4 @@
-package com.qa.blackjack;
+package com.qa.blackjack.game;
 
 import com.qa.blackjack.account.UserAccountRepository;
 import com.qa.blackjack.game.GameController;

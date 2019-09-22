@@ -6,7 +6,7 @@ import javax.naming.InvalidNameException;
 
 import static com.qa.blackjack.util.ConstantsUtil.CARD_VALUES;
 import static com.qa.blackjack.util.ConstantsUtil.SUITS;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class CardTest {
     private String testSuit = "Hearts";
@@ -50,5 +50,11 @@ public class CardTest {
         assertEquals("QD", new Card("Queen", "Diamonds").toString());
         assertEquals("JH", new Card("Jack", "Hearts").toString());
         assertEquals("AS", new Card("Ace", "Spades").toString());
+    }
+
+    @Test
+    public void testIsAceIdentifiesAcesCorrectly() throws InvalidNameException {
+        assertFalse(new Card("King", testSuit).isAce());
+        assertTrue(new Ace(testSuit).isAce());
     }
 }
