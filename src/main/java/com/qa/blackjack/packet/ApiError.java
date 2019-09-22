@@ -1,4 +1,4 @@
-package com.qa.blackjack.error;
+package com.qa.blackjack.packet;
 
 import com.qa.blackjack.util.ApiErrorMessage;
 import com.qa.blackjack.util.ApiStatus;

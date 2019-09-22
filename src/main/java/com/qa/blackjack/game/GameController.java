@@ -1,8 +1,8 @@
 package com.qa.blackjack.game;
 
-import com.qa.blackjack.error.ApiError;
-import com.qa.blackjack.error.ApiResponse;
-import com.qa.blackjack.error.ApiSuccess;
+import com.qa.blackjack.packet.ApiError;
+import com.qa.blackjack.packet.ApiResponse;
+import com.qa.blackjack.packet.ApiSuccess;
 import com.qa.blackjack.profile.UserProfile;
 import com.qa.blackjack.account.UserAccountRepository;
 import com.qa.blackjack.profile.UserProfileRepository;

@@ -2,10 +2,10 @@ package com.qa.blackjack.profile;
 
 import com.qa.blackjack.account.UserAccount;
 import com.qa.blackjack.account.UserAccountRepository;
-import com.qa.blackjack.error.ApiError;
-import com.qa.blackjack.error.ApiResponse;
-import com.qa.blackjack.error.ApiResponsePacket;
-import com.qa.blackjack.error.ApiSuccess;
+import com.qa.blackjack.packet.ApiError;
+import com.qa.blackjack.packet.ApiResponse;
+import com.qa.blackjack.packet.ApiResponsePacket;
+import com.qa.blackjack.packet.ApiSuccess;
 import com.qa.blackjack.util.ApiErrorMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
