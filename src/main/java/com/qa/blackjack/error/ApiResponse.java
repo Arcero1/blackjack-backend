@@ -1,33 +1,24 @@
 package com.qa.blackjack.error;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.qa.blackjack.util.ApiStatus;
 
-public class ApiResponse {
+public abstract class ApiResponse {
 
-    private HttpStatus status;
-    private int error;
-    private String message;
+    private int code;
+    private ApiStatus status;
+    private Object message;
 
-    public ApiResponse(HttpStatus status, String message) {
-        super();
-        this.status = status;
+    public ApiResponse(int code, ApiStatus status, Object message) {
+        this.code = code;
         this.message = message;
+        this.status = status;
     }
 
-    public HttpStatus getStatus() {
-        return status;
+    public int getCode() {
+        return this.code;
     }
-    public String getMessage() {
-        return message;
-    }
-
-    public ResponseEntity<Object> send(Object content) {
-        return new ResponseEntity<>(
-                content,
-                new HttpHeaders(),
-                status
-        );
+    public ApiStatus getStatus() { return this.status; }
+    public Object getMessage() {
+        return this.message;
     }
 }
