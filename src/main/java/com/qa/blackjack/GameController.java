@@ -42,7 +42,7 @@ public class GameController {
 
     @GetMapping("/api/game/bet")
     public ApiResponse bet(@RequestParam int betAmount) {
-        if (betAmount >= 0 || betAmount > profile.getCredits()) return new ApiError(ApiErrorMessage.NOT_ENOUGH_CREDITS);
+        if (betAmount < 0 || betAmount > profile.getCredits()) return new ApiError(ApiErrorMessage.NOT_ENOUGH_CREDITS);
         this.betAmount = betAmount;
         this.resetScores();
         return new ApiSuccess();

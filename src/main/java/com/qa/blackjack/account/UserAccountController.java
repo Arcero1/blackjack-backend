@@ -40,7 +40,7 @@ public class UserAccountController {
     // READ ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @GetMapping("info")
     public ApiResponse getPublicAccountInfo(@RequestParam String email) {
-        if (checkIfEmailExists(email)) return new ApiError(ApiErrorMessage.NO_SUCH_USER);
+        if (!checkIfEmailExists(email)) return new ApiError(ApiErrorMessage.NO_SUCH_USER);
         try {
             return new ApiResponsePacket(
                     new UserAccountPublicInfo(userAccountRepository.findByEmail(email).orElseThrow(Exception::new))
