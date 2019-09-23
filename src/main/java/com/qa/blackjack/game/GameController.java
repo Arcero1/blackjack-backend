@@ -1,5 +1,6 @@
 package com.qa.blackjack.game;
 
+import com.qa.blackjack.account.UserAccountWrapper;
 import com.qa.blackjack.packet.ApiError;
 import com.qa.blackjack.packet.ApiResponse;
 import com.qa.blackjack.packet.ApiSuccess;
@@ -22,8 +23,7 @@ public class GameController {
     private Pack deck;
     private UserProfile profile;
 
-    //private UserAccountRepository userAccountRepository;
-    //private UserProfileRepository userProfileRepository;
+    private UserProfileRepository userProfileRepository;
 
     @GetMapping("/api/game/start")
     public ApiResponse start(@RequestParam String profileName) { // should only be called at the start of a session
@@ -81,9 +81,9 @@ public class GameController {
     @GetMapping("/api/game/stand")
     public ApiResponse stand() {
         updateBank();
-        updateGamesPlayed();
-
-        return new ApiSuccess(hasPlayerWon() ? "win" : "lose");
+        boolean hasWon = hasPlayerWon();
+        new UserAccountWrapper().hasPlayed(hasWon, profile.getOwnerId());
+        return new ApiSuccess(hasWon ? "win" : "lose");
     }
 
     private boolean hasPlayerWon() {
@@ -111,19 +111,6 @@ public class GameController {
         }
 
         userProfileRepository.save(profile);
-    }
-
-    private void updateGamesPlayed() {
-        userAccountRepository.findById(profile.getOwnerId()).ifPresent(user -> {
-            user.hasPlayed(hasPlayerWon());
-            userAccountRepository.save(user);
-        });
-    }
-
-    // SETTER BASED DEPENDENCY INJECTION FOR REPOSITORIES //////////////////////////////////////////////////////////////
-    @Autowired
-    public final void setUserAccountRepository(UserAccountRepository userAccountRepository) {
-        this.userAccountRepository = userAccountRepository;
     }
 
     @Autowired

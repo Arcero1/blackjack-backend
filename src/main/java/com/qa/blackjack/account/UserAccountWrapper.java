@@ -3,11 +3,13 @@ package com.qa.blackjack.account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * This class is an interface between UserAccountController and UserAccountRepository
  */
-@Component
+@RestController
+public
 class UserAccountWrapper {
     private UserAccountRepository repository;
 
@@ -15,7 +17,7 @@ class UserAccountWrapper {
         return createEntry(email, password, email.substring(0, email.indexOf("@")));
     }
 
-    boolean createEntry(String email, String password, String alias) {
+    private boolean createEntry(String email, String password, String alias) {
         if (entryExists(email)) return false;
         repository.save(new UserAccount(email, password, alias));
         return true;
@@ -29,7 +31,7 @@ class UserAccountWrapper {
         return new UserAccountPublicInfo(repository.findByEmail(email).orElseThrow(Exception::new));
     }
 
-    public boolean newAlias(String email, String alias) { // functional
+    boolean newAlias(String email, String alias) { // functional
         UserAccount user;
         try {
             user = repository.findByEmail(email).orElseThrow(Exception::new);
@@ -42,7 +44,7 @@ class UserAccountWrapper {
         return true;
     }
 
-    public boolean newPassword(String email, String oldPassword, String newPassword) throws Exception {
+    boolean newPassword(String email, String oldPassword, String newPassword) throws Exception {
         UserAccount user;
         user = repository
                 .findByEmail(email)
@@ -75,6 +77,13 @@ class UserAccountWrapper {
         }
 
         return true;
+    }
+
+    public void hasPlayed(boolean hasWon, int id) {
+        repository.findById(id).ifPresent(user -> {
+            user.hasPlayed(hasWon);
+            repository.save(user);
+        });
     }
 
     // SETTER BASED DEPENDENCY INJECTION FOR REPOSITORIES //////////////////////////////////////////////////////////////

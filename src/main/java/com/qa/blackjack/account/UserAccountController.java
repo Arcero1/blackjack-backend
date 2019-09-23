@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/users/")
 public class UserAccountController {
-    //private UserAccountRepository userAccountRepository;
     private UserAccountWrapper wrapper = new UserAccountWrapper();
 
     @PostMapping("create")
@@ -37,7 +36,6 @@ public class UserAccountController {
 
     @GetMapping("info")
     public ApiResponse getPublicAccountInfo(@RequestParam String email) {
-        if (!(wrapper.entryExists(email))) return new ApiError(ApiErrorMessage.NO_SUCH_USER);
         try {
             return new ApiResponsePacket(wrapper.getPublicInfo(email));
         } catch (Exception e) {
@@ -61,7 +59,6 @@ public class UserAccountController {
         }
     }
 
-    // UPDATE //////////////////////////////////////////////////////////////////////////////////////////////////////////
     @PostMapping("setAlias")
     public ApiResponse setAccountAlias(@RequestBody UserAccount user) { // functional
         return wrapper.newAlias(user.getEmail(), user.getAlias()) ? new ApiSuccess() : new ApiError(ApiErrorMessage.NO_SUCH_USER);
@@ -78,7 +75,6 @@ public class UserAccountController {
         }
     }
 
-    // DELETE //////////////////////////////////////////////////////////////////////////////////////////////////////////
     @PostMapping("delete")
     public ApiResponse deleteAccount(@RequestBody UserAccount user) { // functional
         return wrapper.deleteEntry(user.getEmail(), user.getPassword()) ?
