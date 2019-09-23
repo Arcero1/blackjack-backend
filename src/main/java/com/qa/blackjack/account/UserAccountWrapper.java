@@ -42,33 +42,28 @@ class UserAccountWrapper {
         return true;
     }
 
-    public boolean newPassword(String email, String oldPassword, String newPassword) {
+    public boolean newPassword(String email, String oldPassword, String newPassword) throws Exception {
         UserAccount user;
-        try {
-            user = repository
-                    .findByEmail(email)
-                    .orElseThrow(Exception::new);
+        user = repository
+                .findByEmail(email)
+                .orElseThrow(Exception::new);
 
-            if (checkPassword(email, oldPassword)) {
-                return false;
-            }
-
-            user.setPassword(newPassword);
-            repository.save(user);
-            return true;
-
-        } catch (Exception e) {
+        if (checkPassword(email, oldPassword)) {
             return false;
         }
+
+        user.setPassword(newPassword);
+        repository.save(user);
+        return true;
     }
 
-    private boolean checkPassword(String email, String password) throws Exception {
+    boolean checkPassword(String email, String password) throws Exception {
         return repository.findByEmail(email)
                 .map(userAccount -> userAccount.comparePassword(password))
                 .orElseThrow(Exception::new);
     }
 
-    public boolean deleteEntry(String email, String password) { // functional
+    boolean deleteEntry(String email, String password) { // functional
         try {
             if (!checkPassword(email, password)) {
                 return false;

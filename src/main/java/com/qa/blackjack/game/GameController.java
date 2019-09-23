@@ -22,8 +22,8 @@ public class GameController {
     private Pack deck;
     private UserProfile profile;
 
-    private UserAccountRepository userAccountRepository;
-    private UserProfileRepository userProfileRepository;
+    //private UserAccountRepository userAccountRepository;
+    //private UserProfileRepository userProfileRepository;
 
     @GetMapping("/api/game/start")
     public ApiResponse start(@RequestParam String profileName) { // should only be called at the start of a session

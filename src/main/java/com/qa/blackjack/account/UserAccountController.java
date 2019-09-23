@@ -5,10 +5,7 @@ import com.qa.blackjack.packet.ApiResponse;
 import com.qa.blackjack.packet.ApiResponsePacket;
 import com.qa.blackjack.packet.ApiSuccess;
 import com.qa.blackjack.util.ApiErrorMessage;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 /**
  * UserProfileController class requires the implementation of the following:
@@ -27,11 +24,12 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/users/")
 public class UserAccountController {
-    private UserAccountRepository userAccountRepository;
+    //private UserAccountRepository userAccountRepository;
+    private UserAccountWrapper wrapper = new UserAccountWrapper();
 
     @PostMapping("create")
     public ApiResponse createAccount(@RequestBody UserAccount user) {
-        return new UserAccountWrapper().createEntry(user.getEmail(), user.getPassword()) ?
+        return wrapper.createEntry(user.getEmail(), user.getPassword()) ?
                 new ApiSuccess() :
                 new ApiError(ApiErrorMessage.USER_EXISTS
                 );
@@ -39,11 +37,9 @@ public class UserAccountController {
 
     @GetMapping("info")
     public ApiResponse getPublicAccountInfo(@RequestParam String email) {
-        if (!checkIfEmailExists(email)) return new ApiError(ApiErrorMessage.NO_SUCH_USER);
+        if (!(wrapper.entryExists(email))) return new ApiError(ApiErrorMessage.NO_SUCH_USER);
         try {
-            return new ApiResponsePacket(
-                    new UserAccountPublicInfo(userAccountRepository.findByEmail(email).orElseThrow(Exception::new))
-            );
+            return new ApiResponsePacket(wrapper.getPublicInfo(email));
         } catch (Exception e) {
             return new ApiError(ApiErrorMessage.NO_SUCH_USER);
         }
@@ -51,17 +47,13 @@ public class UserAccountController {
 
     @GetMapping("validate/email")
     public ApiResponse validateEmail(@RequestParam String email) { // functional
-        return checkIfEmailExists(email) ? new ApiSuccess() : new ApiError(ApiErrorMessage.NO_SUCH_USER);
-    }
-
-    private boolean checkIfEmailExists(String email) {
-        return userAccountRepository.findByEmail(email).isPresent();
+        return wrapper.entryExists(email) ? new ApiSuccess() : new ApiError(ApiErrorMessage.NO_SUCH_USER);
     }
 
     @PostMapping("validate/password")
     public ApiResponse validateLogin(@RequestBody UserAccount user) { // functional
         try {
-            return checkIfPasswordIsCorrect(user.getEmail(), user.getPassword()) ?
+            return wrapper.checkPassword(user.getEmail(), user.getPassword()) ?
                     new ApiSuccess() :
                     new ApiError(ApiErrorMessage.WRONG_PASSWORD);
         } catch (Exception e) {
@@ -69,62 +61,28 @@ public class UserAccountController {
         }
     }
 
-    private boolean checkIfPasswordIsCorrect(String email, String password) throws Exception {
-        return userAccountRepository.findByEmail(email)
-                .map(userAccount -> userAccount.comparePassword(password))
-                .orElseThrow(Exception::new);
-    }
-
     // UPDATE //////////////////////////////////////////////////////////////////////////////////////////////////////////
     @PostMapping("setAlias")
     public ApiResponse setAccountAlias(@RequestBody UserAccount user) { // functional
-        Optional<UserAccount> userOptional = userAccountRepository.findByEmail(user.getEmail());
-        if (!userOptional.isPresent()) {
-            return new ApiError(ApiErrorMessage.NO_SUCH_USER);
-        }
-        UserAccount userPersistent = userOptional.get();
-
-        userPersistent.setAlias(user.getAlias());
-        userAccountRepository.save(userPersistent);
-        return new ApiSuccess();
+        return wrapper.newAlias(user.getEmail(), user.getAlias()) ? new ApiSuccess() : new ApiError(ApiErrorMessage.NO_SUCH_USER);
     }
 
     @PostMapping("changePassword")
     public ApiResponse changeAccountPassword(@RequestBody UserAccountRequestPasswordChange request) {
         try {
-            UserAccount user = userAccountRepository
-                    .findByEmail(request.getEmail())
-                    .orElseThrow(Exception::new);
-            if (checkIfPasswordIsCorrect(request.getEmail(), request.getOldPassword())) {
-                user.setPassword(request.getNewPassword());
-                userAccountRepository.save(user);
-                return new ApiSuccess();
-            }
+            return wrapper.newPassword(request.getEmail(), request.getOldPassword(), request.getNewPassword()) ?
+                    new ApiSuccess() :
+                    new ApiError(ApiErrorMessage.WRONG_PASSWORD);
         } catch (Exception e) {
             return new ApiError(ApiErrorMessage.NO_SUCH_USER);
         }
-        return new ApiError(ApiErrorMessage.WRONG_PASSWORD);
     }
 
     // DELETE //////////////////////////////////////////////////////////////////////////////////////////////////////////
     @PostMapping("delete")
     public ApiResponse deleteAccount(@RequestBody UserAccount user) { // functional
-        try {
-            if (!checkIfPasswordIsCorrect(user.getEmail(), user.getPassword())) {
-                return validateLogin(user);
-            } else {
-                Optional<UserAccount> usersOptional = userAccountRepository.findByEmail(user.getEmail());
-                usersOptional.ifPresent(userAccountRepository::delete);
-                return new ApiSuccess();
-            }
-        } catch (Exception e) {
-            return new ApiError(ApiErrorMessage.NO_SUCH_USER);
-        }
-    }
-
-    // SETTER BASED DEPENDENCY INJECTION FOR REPOSITORIES //////////////////////////////////////////////////////////////
-    @Autowired
-    public final void setUserAccountRepository(UserAccountRepository userAccountRepository) {
-        this.userAccountRepository = userAccountRepository;
+        return wrapper.deleteEntry(user.getEmail(), user.getPassword()) ?
+                new ApiSuccess() :
+                new ApiError(ApiErrorMessage.WRONG_PASSWORD);
     }
 }
