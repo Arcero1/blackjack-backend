@@ -1,9 +1,10 @@
 package com.qa.blackjack.profile;
 
-import com.qa.blackjack.packet.ApiError;
-import com.qa.blackjack.util.ApiErrorMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class UserProfileWrapper {
@@ -13,8 +14,31 @@ public class UserProfileWrapper {
         repository.save(profile);
     }
 
+    public List<UserProfile> getTopTen() throws Exception {
+        return repository.findTop10ByOrderByCreditsDesc().orElseThrow(Exception::new);
+    }
+
+    public String getCredits(String name) throws Exception {
+        return repository.findByName(name)
+                .map(UserProfile::creditsToString)
+                .orElseThrow(Exception::new);
+    }
+
     public UserProfile getProfile(String name) throws Exception {
         return repository.findByName(name).orElseThrow(Exception::new);
+    }
+
+    public boolean checkEntry(String name) {
+        return repository.findByName(name).isPresent();
+    }
+
+    public boolean deleteEntry(String name) {
+        repository.deleteByName(name);
+        return repository.findByName(name).isPresent();
+    }
+
+    public List<UserProfile> getAllProfilesOf(int uid) {
+        return repository.findAllByUid(uid).orElse(new ArrayList<>());
     }
 
     @Autowired

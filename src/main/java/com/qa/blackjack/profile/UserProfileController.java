@@ -1,13 +1,11 @@
 package com.qa.blackjack.profile;
 
-import com.qa.blackjack.account.UserAccount;
-import com.qa.blackjack.account.UserAccountRepository;
+import com.qa.blackjack.account.UserAccountWrapper;
 import com.qa.blackjack.packet.ApiError;
 import com.qa.blackjack.packet.ApiResponse;
 import com.qa.blackjack.packet.ApiResponsePacket;
 import com.qa.blackjack.packet.ApiSuccess;
 import com.qa.blackjack.util.ApiErrorMessage;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -29,21 +27,18 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/profiles/")
 public class UserProfileController {
-    private UserProfileRepository userProfileRepository;
-    private UserAccountRepository userAccountRepository;
+    private UserProfileWrapper profileWrapper = new UserProfileWrapper();
+    private UserAccountWrapper accountWrapper = new UserAccountWrapper();
 
-    // CREATE //////////////////////////////////////////////////////////////////////////////////////////////////////////
     @PostMapping("create")
     public ApiResponse createProfile(@RequestBody UserProfileRequestCreate request) { // functional
-        if (checkIfProfileExists(request.getName())) {
-            return new ApiError(ApiErrorMessage.NO_SUCH_PROFILE);
+        if (profileWrapper.checkEntry(request.getName())) {
+            return new ApiError(ApiErrorMessage.PROFILE_EXISTS);
         }
 
         try {
-            userProfileRepository.save(
-                    new UserProfile(request.getName(), userAccountRepository.findByEmail(request.getOwner())
-                            .map(UserAccount::getId)
-                            .orElseThrow(Exception::new)));
+            profileWrapper.save(
+                    new UserProfile(request.getName(), accountWrapper.getEntryOrRoot(request.getOwner()).getId()));
 
             return new ApiSuccess();
 
@@ -55,33 +50,26 @@ public class UserProfileController {
     @GetMapping("credits")
     public ApiResponse getProfileCredits(@RequestParam String name) { // functional
         try {
-            return new ApiSuccess(userProfileRepository.findByName(name)
-                    .map(UserProfile::creditsToString)
-                    .orElseThrow(Exception::new)
-            );
+            return new ApiSuccess(profileWrapper.getCredits(name));
         } catch (Exception e) {
             return new ApiError(ApiErrorMessage.NO_SUCH_PROFILE);
         }
     }
 
-    // READ ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @GetMapping("validate")
     public ApiResponse validateProfileName(@RequestParam String name) {
-        return checkIfProfileExists(name) ? new ApiSuccess() : new ApiError(ApiErrorMessage.NO_SUCH_PROFILE);
-    }
-
-    private boolean checkIfProfileExists(String name) {
-        return userProfileRepository.findByName(name).isPresent();
+        return profileWrapper.checkEntry(name) ? new ApiSuccess() : new ApiError(ApiErrorMessage.NO_SUCH_PROFILE);
     }
 
     @GetMapping("leaderboard")
     public ApiResponse getLeaderboard() { // functional
         List<UserProfileLeaderBoard> leaders = new ArrayList<>();
         try {
-            userProfileRepository.findTop10ByOrderByCreditsDesc()
-                    .orElseThrow(Exception::new)
-                    .forEach(profile -> leaders.add(generateLeaderBoardEntry(profile))
-                    );
+            profileWrapper.getTopTen()
+                    .forEach(profile -> leaders.add(new UserProfileLeaderBoard(
+                            profile,
+                            accountWrapper.getEntryOrRoot(profile.getOwnerId()).getAlias())
+                    ));
         } catch (Exception e) {
             return new ApiError(ApiErrorMessage.NO_AVAILABLE_PROFILES);
         }
@@ -90,44 +78,22 @@ public class UserProfileController {
 
     @GetMapping("myProfiles")
     public ApiResponse getAllProfilesOfUser(@RequestParam String email) { // functional
+        List<UserProfile> profiles;
         try {
-            return new ApiResponsePacket(userProfileRepository.findAllByUid(
-                    userAccountRepository.findByEmail(email).orElseThrow(() -> new Exception("USER")).getId()
-            )
-                    .orElseThrow(Exception::new));
+            profiles = profileWrapper.getAllProfilesOf(
+                    accountWrapper.getEntry(email).getId()
+            );
         } catch (Exception e) {
-            return e.toString().equals("USER") ?
-                    new ApiError(ApiErrorMessage.NO_SUCH_USER) :
-                    new ApiError(ApiErrorMessage.NO_AVAILABLE_PROFILES);
+            return new ApiError(ApiErrorMessage.NO_SUCH_USER);
         }
+
+        return profiles.size() > 0 ?
+                new ApiResponsePacket(profiles) :
+                new ApiError(ApiErrorMessage.NO_AVAILABLE_PROFILES);
     }
 
-    // DELETE //////////////////////////////////////////////////////////////////////////////////////////////////////////
     @GetMapping("delete")
     public ApiResponse deleteUserProfile(@RequestParam String name) { // functional
-        try {
-            userProfileRepository.delete(userProfileRepository.findByName(name).orElseThrow(Exception::new));
-        } catch (Exception e) {
-            return new ApiError(ApiErrorMessage.NO_SUCH_PROFILE);
-        }
-        return new ApiSuccess();
-    }
-
-    private UserProfileLeaderBoard generateLeaderBoardEntry(UserProfile profile) {
-        return new UserProfileLeaderBoard(
-                profile,
-                userAccountRepository.findById(profile.getOwnerId()).get().getAlias()
-        );
-    }
-
-    // SETTER BASED DEPENDENCY INJECTION FOR REPOSITORIES //////////////////////////////////////////////////////////////
-    @Autowired
-    public final void setUserProfileRepository(UserProfileRepository userProfileRepository) {
-        this.userProfileRepository = userProfileRepository;
-    }
-
-    @Autowired
-    public final void setUserAccountRepository(UserAccountRepository userAccountRepository) {
-        this.userAccountRepository = userAccountRepository;
+        return profileWrapper.deleteEntry(name) ? new ApiSuccess() : new ApiError(ApiErrorMessage.UNEXPECTED_ERROR);
     }
 }

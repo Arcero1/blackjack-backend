@@ -11,4 +11,5 @@ public interface UserProfileRepository extends CrudRepository<UserProfile, Integ
     Optional<List<UserProfile>> findTop10ByOrderByCreditsDesc();
     Optional<List<UserProfile>> findAllByUid(int uid);
     Optional<UserProfile> findByName(String name);
+    void deleteByName(String name);
 }

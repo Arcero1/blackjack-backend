@@ -27,6 +27,30 @@ class UserAccountWrapper {
         return repository.findByEmail(email).isPresent();
     }
 
+    public UserAccount getEntryOrRoot(int id) {
+        try {
+            return repository.findById(id).orElse(repository.findById(1).orElseThrow(Exception::new));
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("This exception means that there is no root user in your database");
+            return null;
+        }
+    }
+
+    public UserAccount getEntry(String email) throws Exception {
+        return repository.findByEmail(email).orElseThrow(Exception::new);
+    }
+
+    public UserAccount getEntryOrRoot(String email) {
+        try {
+            return repository.findByEmail(email).orElse(repository.findById(1).orElseThrow(Exception::new));
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("This exception means that there is no root user in your database");
+            return null;
+        }
+    }
+
     UserAccountPublicInfo getPublicInfo(@RequestParam String email) throws Exception {
         return new UserAccountPublicInfo(repository.findByEmail(email).orElseThrow(Exception::new));
     }
@@ -39,10 +63,11 @@ class UserAccountWrapper {
             return false;
         }
 
-        user.setAlias(user.getAlias());
+        user.setAlias(alias);
         repository.save(user);
         return true;
     }
+
 
     boolean newPassword(String email, String oldPassword, String newPassword) throws Exception {
         UserAccount user;
@@ -70,10 +95,10 @@ class UserAccountWrapper {
             if (!checkPassword(email, password)) {
                 return false;
             }
-            repository.findByEmail(email).ifPresent(repository::delete);
+            repository.deleteByEmail(email);
 
         } catch (Exception ignore) {
-            // no such user => the result of operation was successful
+            // no such user => the result is correct anyway
         }
 
         return true;
