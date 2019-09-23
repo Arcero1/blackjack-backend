@@ -25,7 +25,7 @@ public class UserAccountTest {
 
 
     @Test
-    public void testCreateAccount() throws Exception {
+    public void testCreateAccount() {
         UserAccount note = new UserAccount(testEmail, testPassword);
         System.out.println(note.getEmail());
         when(repository.save(note)).thenReturn(note);
@@ -33,7 +33,7 @@ public class UserAccountTest {
     }
 
     @Test
-    public void testUserAccountPublicInfo() throws Exception {
+    public void testUserAccountPublicInfo() {
         UserAccount note = new UserAccount(testEmail, testPassword);
         note.setAlias("frank");
         System.out.println(note.getEmail());
@@ -42,21 +42,21 @@ public class UserAccountTest {
     }
 
     @Test
-    public void testValidateEmailReturnsTrueIfEmailExists() throws Exception {
+    public void testValidateEmailReturnsTrueIfEmailExists() {
         UserAccount accountWithPreExistingEmail = new UserAccount(testEmail, testPassword);
         when(repository.findByEmail(accountWithPreExistingEmail.getEmail())).thenReturn(Optional.of(accountWithPreExistingEmail));
         assertEquals(ApiStatus.SUCCESS, controller.validateEmail(accountWithPreExistingEmail.getEmail()).getStatus());
     }
 
     @Test
-    public void testValidateEmailReturnsFalseIfEmailNotExists() throws Exception {
+    public void testValidateEmailReturnsFalseIfEmailNotExists() {
         UserAccount accountWithNewEmail = new UserAccount(testEmail, testPassword);
         when(repository.findByEmail(accountWithNewEmail.getEmail())).thenReturn(Optional.empty());
         assertEquals(ApiStatus.FAILURE, controller.validateEmail(accountWithNewEmail.getEmail()).getStatus());
     }
 
     @Test
-    public void testValidatePasswordReturnsTrueIfPasswordGivenIsSameAsStored() throws Exception {
+    public void testValidatePasswordReturnsTrueIfPasswordGivenIsSameAsStored() {
         UserAccount accountWithCorrectPassword = new UserAccount(testEmail, testPassword);
         UserAccount accountWithIncorrectPassword = new UserAccount(testEmail, "wrong-pass");
         when(repository.findByEmail(testEmail)).thenReturn(Optional.of(accountWithCorrectPassword));
