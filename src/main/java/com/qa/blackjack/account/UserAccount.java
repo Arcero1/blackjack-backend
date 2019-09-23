@@ -24,6 +24,11 @@ public class UserAccount {
         this.email = email;
         this.password = password;
     }
+    public UserAccount(String email, String password, String alias) {
+        this.email = email;
+        this.password = password;
+        this.alias = alias;
+    }
 
     public void hasPlayed(boolean hasWon) {
         this.gamesPlayed++;

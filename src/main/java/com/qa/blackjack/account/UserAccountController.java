@@ -29,15 +29,14 @@ import java.util.Optional;
 public class UserAccountController {
     private UserAccountRepository userAccountRepository;
 
-    // CREATE //////////////////////////////////////////////////////////////////////////////////////////////////////////
     @PostMapping("create")
     public ApiResponse createAccount(@RequestBody UserAccount user) {
-        user.setAlias(user.getEmail().substring(0, user.getEmail().indexOf("@")));
-        userAccountRepository.save(user);
-        return new ApiSuccess();
+        return new UserAccountWrapper().createEntry(user.getEmail(), user.getPassword()) ?
+                new ApiSuccess() :
+                new ApiError(ApiErrorMessage.USER_EXISTS
+                );
     }
 
-    // READ ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @GetMapping("info")
     public ApiResponse getPublicAccountInfo(@RequestParam String email) {
         if (!checkIfEmailExists(email)) return new ApiError(ApiErrorMessage.NO_SUCH_USER);

@@ -6,5 +6,6 @@ public enum ApiErrorMessage {
     OUT_OF_CARDS,
     WRONG_PASSWORD,
     NO_SUCH_PROFILE,
-    NO_AVAILABLE_PROFILES
+    NO_AVAILABLE_PROFILES,
+    USER_EXISTS
 }

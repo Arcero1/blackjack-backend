@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RestController
 public class GameController {
-    private Hand player = new Hand();
-    private Hand dealer = new Hand();
-    private int betAmount = 0;
+    Hand player = new Hand();
+    Hand dealer = new Hand();
+    int betAmount = 0;
 
     private Pack deck;
     private UserProfile profile;
@@ -84,12 +84,6 @@ public class GameController {
         updateGamesPlayed();
 
         return new ApiSuccess(hasPlayerWon() ? "win" : "lose");
-    }
-
-    // CHECKS //////////////////////////////////////////////////////////////////////////////////////////////////////////
-    @GetMapping("/api/game/pollBust")
-    public ApiResponse checkIfPlayerIsBust() {
-        return new ApiSuccess(player.getScore() < 22 ? "safe" : "bust");
     }
 
     private boolean hasPlayerWon() {
