@@ -16,10 +16,13 @@ import org.springframework.web.bind.annotation.*;
 public class GameController {
     Hand player = new Hand();
     Hand dealer = new Hand();
-    int betAmount = 0;
+    private int betAmount = 0;
 
-    private Pack deck;
-    private UserProfile profile;
+    Pack deck;
+    UserProfile profile;
+
+    private UserProfileWrapper profileWrapper = new UserProfileWrapper();
+    private UserAccountWrapper accountWrapper = new UserAccountWrapper();
 
     @GetMapping("/api/game/start")
     public ApiResponse start(@RequestParam String profileName) { // should only be called at the start of a session
@@ -27,7 +30,7 @@ public class GameController {
         this.resetScores();
 
         try {
-            profile = new UserProfileWrapper().getProfile(profileName);
+            profile = profileWrapper.getProfile(profileName);
         } catch (Exception e) {
             return new ApiError(ApiErrorMessage.NO_SUCH_USER);
         }
@@ -79,7 +82,7 @@ public class GameController {
     public ApiResponse stand() {
         updateBank();
         boolean hasWon = hasPlayerWon();
-        new UserAccountWrapper().hasPlayed(hasWon, profile.getOwnerId());
+        accountWrapper.hasPlayed(hasWon, profile.getOwnerId());
         return new ApiSuccess(hasWon ? "win" : "lose");
     }
 
@@ -87,8 +90,12 @@ public class GameController {
         int playerTotal = player.getScore();
         int dealerTotal = dealer.getScore();
 
-        boolean winCondition1 = playerTotal > dealerTotal && playerTotal < 22;
-        boolean winCondition2 = playerTotal == 21 && dealerTotal == 21 && player.getNumCards() == 2 && dealer.getNumCards() != 2;
+        boolean winCondition1 = playerTotal > dealerTotal
+                && playerTotal < 22;
+        boolean winCondition2 = playerTotal == 21
+                && dealerTotal == 21
+                && player.getNumCards() == 2
+                && dealer.getNumCards() != 2;
         boolean winCondition3 = playerTotal < 22 & dealerTotal > 21;
         return winCondition1 || winCondition2 || winCondition3;
     }
@@ -107,6 +114,6 @@ public class GameController {
             profile.addCredits(-betAmount);
         }
 
-        new UserProfileWrapper().save(profile);
+        profileWrapper.save(profile);
     }
 }

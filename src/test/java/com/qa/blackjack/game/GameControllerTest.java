@@ -1,11 +1,10 @@
 package com.qa.blackjack.game;
 
-import com.qa.blackjack.account.UserAccount;
-import com.qa.blackjack.account.UserAccountController;
-import com.qa.blackjack.account.UserAccountRepository;
+import com.qa.blackjack.account.UserAccountWrapper;
+import com.qa.blackjack.packet.ApiError;
 import com.qa.blackjack.packet.ApiSuccess;
 import com.qa.blackjack.profile.UserProfile;
-import com.qa.blackjack.profile.UserProfileRepository;
+import com.qa.blackjack.profile.UserProfileWrapper;
 import com.qa.blackjack.util.ApiErrorMessage;
 import com.qa.blackjack.util.ApiStatus;
 import org.junit.Before;
@@ -16,45 +15,46 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Optional;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class GameControllerTest {//    private GameController controller;
-    @InjectMocks static GameController controller = new GameController();
-    @Mock static UserAccountRepository UARepository;
-    @Mock static UserProfileRepository UPRepository;
+public class GameControllerTest {
+    @InjectMocks
+    GameController controller = new GameController();
     @Mock
-    UserAccountController c2;
+    UserProfileWrapper profileWrapper = new UserProfileWrapper();
+    @Mock
+    UserAccountWrapper accountWrapper = new UserAccountWrapper();
 
-
-    private static UserProfile existingProfile = new UserProfile("existing-profile");
-    private static UserProfile notExistingProfile = new UserProfile("not-existing-profile");
+    private String testName = "profile-name";
+    private UserProfile testProfile = new UserProfile(testName);
 
     @Before
     @Test
-    public void testStart() {
-        when(UPRepository.findByName(existingProfile.getName())).thenReturn(Optional.of(existingProfile));
-        when(UPRepository.findByName(notExistingProfile.getName())).thenReturn(Optional.empty());
+    public void testStart() throws Exception {
+        String testIncorrectName = "incorrect-name";
 
-        assertEquals(ApiStatus.SUCCESS, controller.start(existingProfile.getName()).getStatus());
-        assertEquals(ApiStatus.FAILURE, controller.start(notExistingProfile.getName()).getStatus());
+        when(profileWrapper.getProfile(testName)).thenReturn(testProfile);
+        when(profileWrapper.getProfile(testIncorrectName)).thenThrow(new Exception());
+
+        assertEquals(ApiSuccess.class, controller.start(testName).getClass());
+
+        assertEquals(ApiError.class, controller.start(testIncorrectName).getClass());
+        assertEquals(ApiErrorMessage.NO_SUCH_USER.toString(), controller.start(testIncorrectName).getMessage());
     }
 
     @Test
-    public void testBetWithSufficientFunds() {
-        assertEquals(ApiSuccess.class, controller.bet(100).getClass());
-        assertEquals(100, controller.betAmount);
-    }
+    public void testBet() {
+        testProfile.addCredits(1000 - controller.profile.getCredits());
 
-    @Test
-    public void testBetWithInsufficientFunds() {
-        assertEquals(ApiStatus.FAILURE, controller.bet(1000).getStatus());
+        assertEquals(ApiSuccess.class, controller.bet(500).getClass());
+
+        assertEquals(ApiSuccess.class, controller.bet(1000).getClass());
+
+        assertEquals(ApiError.class, controller.bet(2000).getClass());
         assertEquals(ApiErrorMessage.NOT_ENOUGH_CREDITS.toString(), controller.bet(1000).getMessage());
     }
 
@@ -62,9 +62,15 @@ public class GameControllerTest {//    private GameController controller;
     public void testHit() {
         int s = controller.player.getScore();
         int c = controller.player.getNumCards();
-        controller.hit();
+
+        assertEquals(ApiSuccess.class, controller.hit().getClass());
         assertTrue(s < controller.player.getScore());
         assertTrue(c < controller.player.getNumCards());
+
+
+        controller.deck.cards.clear();
+        assertEquals(ApiError.class, controller.hit().getClass());
+        assertEquals(ApiErrorMessage.OUT_OF_CARDS.toString(), controller.hit().getMessage());
     }
 
     @Test
@@ -72,13 +78,22 @@ public class GameControllerTest {//    private GameController controller;
         int s = controller.dealer.getScore();
         int c = controller.dealer.getNumCards();
         controller.dealerHit();
+
+        assertEquals(ApiSuccess.class, controller.dealerHit().getClass());
         assertTrue(s < controller.dealer.getScore());
         assertTrue(c < controller.dealer.getNumCards());
+
+
+        controller.deck.cards.clear();
+        assertEquals(ApiError.class, controller.dealerHit().getClass());
+        assertEquals(ApiErrorMessage.OUT_OF_CARDS.toString(), controller.dealerHit().getMessage());
     }
 
     @Test
     public void testStand() {
-        when(UPRepository.save(existingProfile)).thenReturn(existingProfile);
+        assertEquals("win", controller.stand().getMessage());
 
+        assertEquals("lose", controller.stand().getMessage());
     }
+
 }
