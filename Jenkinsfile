@@ -1,14 +1,9 @@
 pipeline {
-  agent {
-    dockerfile {
-      filename 'Dockerfile'
-    }
-
-  }
+  agent any
   stages {
     stage('a test stage') {
       steps {
-        sh 'mvn spring-boot:run'
+        sh 'mvn install -DskipTests'
       }
     }
   }
