@@ -14,7 +14,13 @@ class Hand {
     }
 
     int getScore() {
-        return cards.stream().mapToInt(Card::getValue).sum();
+        int score = cards.stream().mapToInt(Card::getValue).sum();
+
+        for(int i = 0; i < getNumAces(); i++) {
+            if(score < 22) { break; }
+            score -= 10;
+        }
+        return score;
     }
 
     long getNumAces() {
