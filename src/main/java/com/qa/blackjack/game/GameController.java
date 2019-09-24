@@ -90,16 +90,13 @@ public class GameController {
         int playerTotal = player.getScore();
         int dealerTotal = dealer.getScore();
 
-        player.getNumAces();
-        if (playerTotal
-
         boolean winCondition1 = playerTotal > dealerTotal
                 && playerTotal < 22;
         boolean winCondition2 = playerTotal == 21
                 && dealerTotal == 21
                 && player.getNumCards() == 2
                 && dealer.getNumCards() != 2;
-        boolean winCondition3 = playerTotal < 22 & dealerTotal > 21;
+        boolean winCondition3 = playerTotal < 22 && dealerTotal > 21;
         return winCondition1 || winCondition2 || winCondition3;
     }
 
