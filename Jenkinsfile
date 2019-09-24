@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('a test stage') {
       steps {
-        sh 'echo "hello world"'
+        sh 'docker run -dit -p 3000:80 '
       }
     }
   }
