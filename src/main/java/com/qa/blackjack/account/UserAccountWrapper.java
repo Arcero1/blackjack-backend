@@ -1,5 +1,7 @@
 package com.qa.blackjack.account;
 
+import com.qa.blackjack.exceptions.IncorrectEmailFormatException;
+import com.qa.blackjack.exceptions.NoSuchAccountException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,37 +15,46 @@ public
 class UserAccountWrapper {
     private UserAccountRepository repository;
 
-    boolean createEntry(String email, String password) {
-        return createEntry(email, password, email.substring(0, email.indexOf("@")));
-    }
-
-    private boolean createEntry(String email, String password, String alias) {
-        if (entryExists(email)) return false;
-        repository.save(new UserAccount(email, password, alias));
-        return true;
+    boolean createEntry(String email, String password) throws IncorrectEmailFormatException {
+        try {
+            UserAccount a = new UserAccount(email, password, email.substring(0, email.indexOf("@")));
+            return repository.save(a).getEmail().equals(a.getEmail());
+        } catch (StringIndexOutOfBoundsException e) {
+            throw new IncorrectEmailFormatException();
+        }
     }
 
     boolean entryExists(String email) {
         return repository.findByEmail(email).isPresent();
     }
 
-    public UserAccount getEntryOrRoot(int id) {
-        try {
-            return repository.findById(id).orElse(repository.findById(1).orElseThrow(Exception::new));
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("This exception means that there is no root user in your database");
-            return null;
-        }
+    public UserAccount getEntry(String email) throws NoSuchAccountException {
+        return repository.findByEmail(email).orElseThrow(NoSuchAccountException::new);
     }
 
-    public UserAccount getEntry(String email) throws Exception {
-        return repository.findByEmail(email).orElseThrow(Exception::new);
+    public UserAccount getEntry(int id) throws NoSuchAccountException {
+        return repository.findById(id).orElseThrow(NoSuchAccountException::new);
     }
 
     public UserAccount getEntryOrRoot(String email) {
         try {
-            return repository.findByEmail(email).orElse(repository.findById(1).orElseThrow(Exception::new));
+            return getEntry(email);
+        } catch (NoSuchAccountException ignore) {
+            return getRootUser();
+        }
+    }
+
+    public UserAccount getEntryOrRoot(int id) {
+        try {
+            return getEntry(id);
+        } catch (NoSuchAccountException e) {
+            return getRootUser();
+        }
+    }
+
+    private UserAccount getRootUser() {
+        try {
+            return repository.findById(1).orElseThrow(Exception::new);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("This exception means that there is no root user in your database");
@@ -51,18 +62,12 @@ class UserAccountWrapper {
         }
     }
 
-    UserAccountPublicInfo getPublicInfo(@RequestParam String email) throws Exception {
-        return new UserAccountPublicInfo(repository.findByEmail(email).orElseThrow(Exception::new));
+    UserAccountPublicInfo getPublicInfo(@RequestParam String email) throws NoSuchAccountException {
+        return new UserAccountPublicInfo(getEntry(email));
     }
 
-    boolean newAlias(String email, String alias) { // functional
-        UserAccount user;
-        try {
-            user = repository.findByEmail(email).orElseThrow(Exception::new);
-        } catch (Exception e) {
-            return false;
-        }
-
+    boolean newAlias(String email, String alias) throws NoSuchAccountException { // functional
+        UserAccount user = getEntry(email);
         user.setAlias(alias);
         repository.save(user);
         return true;

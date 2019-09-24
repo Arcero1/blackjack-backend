@@ -1,5 +1,7 @@
 package com.qa.blackjack.account;
 
+import com.qa.blackjack.exceptions.IncorrectEmailFormatException;
+import com.qa.blackjack.exceptions.NoSuchAccountException;
 import com.qa.blackjack.packet.ApiError;
 import com.qa.blackjack.packet.ApiResponse;
 import com.qa.blackjack.packet.ApiResponsePacket;
@@ -28,10 +30,14 @@ public class UserAccountController {
 
     @PostMapping("create")
     public ApiResponse createAccount(@RequestBody UserAccount user) {
-        return wrapper.createEntry(user.getEmail(), user.getPassword()) ?
-                new ApiSuccess() :
-                new ApiError(ApiErrorMessage.USER_EXISTS
-                );
+        try {
+            return wrapper.createEntry(user.getEmail(), user.getPassword()) ?
+                    new ApiSuccess() :
+                    new ApiError(ApiErrorMessage.USER_EXISTS
+                    );
+        } catch (IncorrectEmailFormatException e) {
+            return new ApiError(ApiErrorMessage.UNEXPECTED_ERROR);
+        }
     }
 
     @GetMapping("info")
@@ -61,7 +67,12 @@ public class UserAccountController {
 
     @PostMapping("setAlias")
     public ApiResponse setAccountAlias(@RequestBody UserAccount user) { // functional
-        return wrapper.newAlias(user.getEmail(), user.getAlias()) ? new ApiSuccess() : new ApiError(ApiErrorMessage.NO_SUCH_USER);
+        try {
+            wrapper.newAlias(user.getEmail(), user.getAlias());
+            return new ApiSuccess();
+        } catch (NoSuchAccountException e) {
+            return new ApiError(ApiErrorMessage.NO_SUCH_USER);
+        }
     }
 
     @PostMapping("changePassword")
