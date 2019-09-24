@@ -147,8 +147,6 @@
                     <target>10</target>
                 </configuration>
             </plugin>
-
-
         </plugins>
     </build>
 

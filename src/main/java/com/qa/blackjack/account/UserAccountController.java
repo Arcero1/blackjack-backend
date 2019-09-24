@@ -7,6 +7,7 @@ import com.qa.blackjack.packet.ApiResponse;
 import com.qa.blackjack.packet.ApiResponsePacket;
 import com.qa.blackjack.packet.ApiSuccess;
 import com.qa.blackjack.util.ApiErrorMessage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/users/")
 public class UserAccountController {
+    @Autowired
     private UserAccountWrapper wrapper = new UserAccountWrapper();
 
     @PostMapping("create")
@@ -51,6 +53,7 @@ public class UserAccountController {
 
     @GetMapping("validate/email")
     public ApiResponse validateEmail(@RequestParam String email) { // functional
+        System.out.println("HI, email:" + email);
         return wrapper.entryExists(email) ? new ApiSuccess() : new ApiError(ApiErrorMessage.NO_SUCH_USER);
     }
 

@@ -3,7 +3,12 @@ package com.qa.blackjack.account;
 import com.qa.blackjack.exceptions.IncorrectEmailFormatException;
 import com.qa.blackjack.exceptions.NoSuchAccountException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,21 +16,23 @@ import org.springframework.web.bind.annotation.RestController;
  * This class is an interface between UserAccountController and UserAccountRepository
  */
 @RestController
-public
-class UserAccountWrapper {
+public class UserAccountWrapper {
     private UserAccountRepository repository;
 
     boolean createEntry(String email, String password) throws IncorrectEmailFormatException {
         try {
             UserAccount a = new UserAccount(email, password, email.substring(0, email.indexOf("@")));
-            return repository.save(a).getEmail().equals(a.getEmail());
+            //return repository.save(a).getEmail().equals(a.getEmail());
+            repository.save(a);
+            return true;
         } catch (StringIndexOutOfBoundsException e) {
             throw new IncorrectEmailFormatException();
         }
     }
 
+    @GetMapping
     boolean entryExists(String email) {
-        return repository.findByEmail(email).isPresent();
+        return repository.findByEmail("frank").isPresent();
     }
 
     public UserAccount getEntry(String email) throws NoSuchAccountException {

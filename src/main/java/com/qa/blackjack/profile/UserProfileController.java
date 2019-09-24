@@ -6,6 +6,7 @@ import com.qa.blackjack.packet.ApiResponse;
 import com.qa.blackjack.packet.ApiResponsePacket;
 import com.qa.blackjack.packet.ApiSuccess;
 import com.qa.blackjack.util.ApiErrorMessage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -27,7 +28,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/profiles/")
 public class UserProfileController {
+    @Autowired
     private UserProfileWrapper profileWrapper = new UserProfileWrapper();
+    @Autowired
     private UserAccountWrapper accountWrapper = new UserAccountWrapper();
 
     @PostMapping("create")
