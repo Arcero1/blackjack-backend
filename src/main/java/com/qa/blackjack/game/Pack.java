@@ -6,7 +6,7 @@ package com.qa.blackjack.game;
 public class Pack extends Deck {
 
     public Pack(int numDecks) {
-        for(int i = 0; i < numDecks; i++) {
+        for(int i = 1; i < numDecks; i++) {
             cards.addAll(new Deck().getAllCards());
         }
     }

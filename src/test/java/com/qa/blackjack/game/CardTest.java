@@ -6,7 +6,7 @@ import javax.naming.InvalidNameException;
 
 import static com.qa.blackjack.util.ConstantsUtil.CARD_VALUES;
 import static com.qa.blackjack.util.ConstantsUtil.SUITS;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class CardTest {
     private String testSuit = "Hearts";
@@ -41,22 +41,20 @@ public class CardTest {
     }
 
     @Test
-    public void test_toString_GivesNameAndSuit() throws InvalidNameException {
-        assertEquals("King of Diamonds", new Card("King", "Diamonds").toString());
-        assertEquals("Queen of Spades", new Card("Queen", "Spades").toString());
-        assertEquals("10 of Clubs", new Card("10", "Clubs").toString());
-        assertEquals("3 of Hearts", new Card("3", "Hearts").toString());
+    public void testCardIdIsCorrect() throws InvalidNameException {
+        assertEquals("10S", new Card("10", "Spades").toString());
+        assertEquals("5D", new Card("5", "Diamonds").toString());
+        assertEquals("2C", new Card("2", "Clubs").toString());
+        assertEquals("9H", new Card("9", "Hearts").toString());
+        assertEquals("KC", new Card("King", "Clubs").toString());
+        assertEquals("QD", new Card("Queen", "Diamonds").toString());
+        assertEquals("JH", new Card("Jack", "Hearts").toString());
+        assertEquals("AS", new Card("Ace", "Spades").toString());
     }
 
     @Test
-    public void testCardIdIsCorrect() throws InvalidNameException {
-        assertEquals("10S", new Card("10", "Spades").getId());
-        assertEquals("5D", new Card("5", "Diamonds").getId());
-        assertEquals("2C", new Card("2", "Clubs").getId());
-        assertEquals("9H", new Card("9", "Hearts").getId());
-        assertEquals("KC", new Card("King", "Clubs").getId());
-        assertEquals("QD", new Card("Queen", "Diamonds").getId());
-        assertEquals("JH", new Card("Jack", "Hearts").getId());
-        assertEquals("AS", new Card("Ace", "Spades").getId());
+    public void testIsAceIdentifiesAcesCorrectly() throws InvalidNameException {
+        assertFalse(new Card("King", testSuit).isAce());
+        assertTrue(new Ace(testSuit).isAce());
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 
 import static com.qa.blackjack.util.ConstantsUtil.CARD_VALUES;
 
-public class Deck {
+class Deck {
     List<Card> cards = new ArrayList<>();
 
     Deck() {
@@ -18,11 +18,16 @@ public class Deck {
                 cards.add(new Card(key, suit));
             } catch (InvalidNameException e) {
                 e.printStackTrace();
+                System.out.println(
+                        "since we introduced CARD_VALUES, \n" +
+                                "this really should never be a problem anymore,\n" +
+                                "if this throws, something unexpectedly strange is wrong"
+                );
             }
         }));
     }
 
-    public void shuffle() {
+    void shuffle() {
         List<Card> shuffledCards = new ArrayList<>();
         while (cards.size() > 0) {
             shuffledCards.add(cards.remove((int) (Math.random() * cards.size())));
@@ -30,7 +35,7 @@ public class Deck {
         cards.addAll(shuffledCards);
     }
 
-    public Card getCard() {
+    Card getCard() {
         try {
             return cards.remove(0);
         } catch (IndexOutOfBoundsException e) {
