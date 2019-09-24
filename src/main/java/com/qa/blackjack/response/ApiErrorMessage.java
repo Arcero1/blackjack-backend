@@ -1,4 +1,4 @@
-package com.qa.blackjack.util;
+package com.qa.blackjack.response;
 
 public enum ApiErrorMessage {
     NOT_ENOUGH_CREDITS,

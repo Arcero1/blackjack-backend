@@ -1,23 +1,16 @@
 package com.qa.blackjack.profile;
 
 import com.qa.blackjack.account.UserAccount;
-import com.qa.blackjack.account.UserAccountController;
-import com.qa.blackjack.account.UserAccountRepository;
-import com.qa.blackjack.account.UserAccountWrapper;
-import com.qa.blackjack.packet.ApiError;
-import com.qa.blackjack.packet.ApiResponse;
-import com.qa.blackjack.packet.ApiResponsePacket;
-import com.qa.blackjack.packet.ApiSuccess;
-import com.qa.blackjack.profile.UserProfileController;
-import com.qa.blackjack.util.ApiErrorMessage;
+import com.qa.blackjack.account.UserAccountRepositoryWrapper;
+import com.qa.blackjack.response.ApiError;
+import com.qa.blackjack.response.ApiResponsePacket;
+import com.qa.blackjack.response.ApiSuccess;
+import com.qa.blackjack.response.ApiErrorMessage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.*;
@@ -35,7 +28,7 @@ public class UserProfileControllerTest {
     @Mock
     UserProfileWrapper profileWrapper;
     @Mock
-    UserAccountWrapper accountWrapper;
+    UserAccountRepositoryWrapper accountWrapper;
     private String testName = "name";
     private String testAccountName = "account-name";
     private UserAccount testAccount = new UserAccount(testAccountName, "test");

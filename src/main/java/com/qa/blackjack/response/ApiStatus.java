@@ -1,4 +1,4 @@
-package com.qa.blackjack.util;
+package com.qa.blackjack.response;
 
 public enum ApiStatus {
     SUCCESS,

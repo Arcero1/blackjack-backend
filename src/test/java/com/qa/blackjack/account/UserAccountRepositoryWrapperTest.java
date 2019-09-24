@@ -2,10 +2,6 @@ package com.qa.blackjack.account;
 
 import com.qa.blackjack.exceptions.IncorrectEmailFormatException;
 import com.qa.blackjack.exceptions.NoSuchAccountException;
-import com.qa.blackjack.packet.ApiSuccess;
-import com.qa.blackjack.util.ApiStatus;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -21,9 +17,9 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class UserAccountWrapperTest {
+public class UserAccountRepositoryWrapperTest {
     @InjectMocks
-    private UserAccountWrapper wrapper;
+    private UserAccountRepositoryWrapper wrapper;
     @Mock
     UserAccountRepository repository;
 

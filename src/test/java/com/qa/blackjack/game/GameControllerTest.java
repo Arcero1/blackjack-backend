@@ -1,11 +1,11 @@
 package com.qa.blackjack.game;
 
-import com.qa.blackjack.account.UserAccountWrapper;
-import com.qa.blackjack.packet.ApiError;
-import com.qa.blackjack.packet.ApiSuccess;
+import com.qa.blackjack.account.UserAccountRepositoryWrapper;
+import com.qa.blackjack.response.ApiError;
+import com.qa.blackjack.response.ApiSuccess;
 import com.qa.blackjack.profile.UserProfile;
 import com.qa.blackjack.profile.UserProfileWrapper;
-import com.qa.blackjack.util.ApiErrorMessage;
+import com.qa.blackjack.response.ApiErrorMessage;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +28,7 @@ public class GameControllerTest {
     @Mock
     UserProfileWrapper profileWrapper;
     @Mock
-    UserAccountWrapper accountWrapper;
+    UserAccountRepositoryWrapper accountWrapper;
 
     private String testName = "profile-name";
     private UserProfile testProfile = new UserProfile(testName);

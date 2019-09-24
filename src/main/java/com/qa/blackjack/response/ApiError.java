@@ -1,7 +1,4 @@
-package com.qa.blackjack.packet;
-
-import com.qa.blackjack.util.ApiErrorMessage;
-import com.qa.blackjack.util.ApiStatus;
+package com.qa.blackjack.response;
 
 public class ApiError extends ApiResponse {
     public ApiError(ApiErrorMessage message) {

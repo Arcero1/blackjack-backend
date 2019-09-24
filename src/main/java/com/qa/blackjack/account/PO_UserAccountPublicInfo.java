@@ -1,12 +1,12 @@
 package com.qa.blackjack.account;
 
-public class UserAccountPublicInfo {
+public class PO_UserAccountPublicInfo {
     private int id;
     private String alias;
     private int gamesPlayed;
     private int gamesWon;
 
-    public UserAccountPublicInfo(UserAccount user) {
+    public PO_UserAccountPublicInfo(UserAccount user) {
         this.id = user.getId();
         this.alias = user.getAlias();
         this.gamesPlayed = user.getGamesPlayed();

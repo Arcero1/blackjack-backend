@@ -2,10 +2,10 @@ package com.qa.blackjack.account;
 
 import com.qa.blackjack.exceptions.IncorrectEmailFormatException;
 import com.qa.blackjack.exceptions.NoSuchAccountException;
-import com.qa.blackjack.packet.ApiError;
-import com.qa.blackjack.packet.ApiSuccess;
-import com.qa.blackjack.util.ApiErrorMessage;
-import com.qa.blackjack.util.ApiStatus;
+import com.qa.blackjack.response.ApiError;
+import com.qa.blackjack.response.ApiSuccess;
+import com.qa.blackjack.response.ApiErrorMessage;
+import com.qa.blackjack.response.ApiStatus;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -23,7 +23,7 @@ public class UserAccountControllerTest {
     @InjectMocks
     private UserAccountController controller = new UserAccountController();
     @Mock
-    UserAccountWrapper wrapper = new UserAccountWrapper();
+    UserAccountRepositoryWrapper wrapper = new UserAccountRepositoryWrapper();
 
     private String testEmail = "test.email@test.com";
     private String testPassword = "test-pass";
@@ -45,13 +45,13 @@ public class UserAccountControllerTest {
     public void testUserAccountPublicInfo() throws Exception {
         // success
         when(wrapper.getPublicInfo(testEmail)).thenReturn(
-                new UserAccountPublicInfo(
+                new PO_UserAccountPublicInfo(
                         new UserAccount(testEmail, testPassword)
                 )
         );
 
         assertEquals(ApiStatus.SUCCESS, controller.getPublicAccountInfo(testEmail).getStatus());
-        assertEquals(UserAccountPublicInfo.class, controller.getPublicAccountInfo(testEmail).getMessage().getClass());
+        assertEquals(PO_UserAccountPublicInfo.class, controller.getPublicAccountInfo(testEmail).getMessage().getClass());
         // difficult to confirm whether the info is correct or not - should look into it, not a priority
     }
 
@@ -101,23 +101,23 @@ public class UserAccountControllerTest {
 
         when(wrapper.newPassword(testEmail, testPassword, newPassword)).thenReturn(true);
         assertEquals(ApiSuccess.class, controller.changeAccountPassword(
-                new UserAccountRequestPasswordChange(testEmail, newPassword, testPassword)
+                new PI_UserAccountPasswordChange(testEmail, newPassword, testPassword)
         ).getClass());
 
         when(wrapper.newPassword(testEmail, testPassword, newPassword)).thenReturn(false);
         assertEquals(ApiError.class, controller.changeAccountPassword(
-                new UserAccountRequestPasswordChange(testEmail, newPassword, testPassword)
+                new PI_UserAccountPasswordChange(testEmail, newPassword, testPassword)
         ).getClass());
         assertEquals(ApiErrorMessage.WRONG_PASSWORD.toString(), controller.changeAccountPassword(
-                new UserAccountRequestPasswordChange(testEmail, newPassword, testPassword)
+                new PI_UserAccountPasswordChange(testEmail, newPassword, testPassword)
         ).getMessage());
 
         when(wrapper.newPassword(testEmail, testPassword, newPassword)).thenThrow(new Exception());
         assertEquals(ApiError.class, controller.changeAccountPassword(
-                new UserAccountRequestPasswordChange(testEmail, newPassword, testPassword)
+                new PI_UserAccountPasswordChange(testEmail, newPassword, testPassword)
         ).getClass());
         assertEquals(ApiErrorMessage.NO_SUCH_USER.toString(), controller.changeAccountPassword(
-                new UserAccountRequestPasswordChange(testEmail, newPassword, testPassword)
+                new PI_UserAccountPasswordChange(testEmail, newPassword, testPassword)
         ).getMessage());
     }
 

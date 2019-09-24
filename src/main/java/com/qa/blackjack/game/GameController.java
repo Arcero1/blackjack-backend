@@ -1,13 +1,13 @@
 package com.qa.blackjack.game;
 
-import com.qa.blackjack.account.UserAccountWrapper;
-import com.qa.blackjack.packet.ApiError;
-import com.qa.blackjack.packet.ApiResponse;
-import com.qa.blackjack.packet.ApiSuccess;
+import com.qa.blackjack.account.UserAccountRepositoryWrapper;
+import com.qa.blackjack.response.ApiError;
+import com.qa.blackjack.response.ApiResponse;
+import com.qa.blackjack.response.ApiSuccess;
 import com.qa.blackjack.profile.UserProfile;
 import com.qa.blackjack.profile.UserProfileWrapper;
-import com.qa.blackjack.util.ApiErrorMessage;
-import com.qa.blackjack.util.ApiStatus;
+import com.qa.blackjack.response.ApiErrorMessage;
+import com.qa.blackjack.response.ApiStatus;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -22,7 +22,7 @@ public class GameController {
     UserProfile profile;
 
     private UserProfileWrapper profileWrapper = new UserProfileWrapper();
-    private UserAccountWrapper accountWrapper = new UserAccountWrapper();
+    private UserAccountRepositoryWrapper accountWrapper = new UserAccountRepositoryWrapper();
 
     @GetMapping("/api/game/start")
     public ApiResponse start(@RequestParam String profileName) { // should only be called at the start of a session

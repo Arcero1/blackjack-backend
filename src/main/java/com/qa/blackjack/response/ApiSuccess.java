@@ -1,6 +1,4 @@
-package com.qa.blackjack.packet;
-
-import com.qa.blackjack.util.ApiStatus;
+package com.qa.blackjack.response;
 
 public class ApiSuccess extends ApiResponse {
 

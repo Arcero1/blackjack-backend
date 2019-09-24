@@ -3,20 +3,15 @@ package com.qa.blackjack.account;
 import com.qa.blackjack.exceptions.IncorrectEmailFormatException;
 import com.qa.blackjack.exceptions.NoSuchAccountException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * This class is an interface between UserAccountController and UserAccountRepository
  */
-@RestController
-public class UserAccountWrapper {
+@Repository
+public class UserAccountRepositoryWrapper {
     private UserAccountRepository repository;
 
     boolean createEntry(String email, String password) throws IncorrectEmailFormatException {
@@ -69,8 +64,8 @@ public class UserAccountWrapper {
         }
     }
 
-    UserAccountPublicInfo getPublicInfo(@RequestParam String email) throws NoSuchAccountException {
-        return new UserAccountPublicInfo(getEntry(email));
+    PO_UserAccountPublicInfo getPublicInfo(@RequestParam String email) throws NoSuchAccountException {
+        return new PO_UserAccountPublicInfo(getEntry(email));
     }
 
     boolean newAlias(String email, String alias) throws NoSuchAccountException { // functional

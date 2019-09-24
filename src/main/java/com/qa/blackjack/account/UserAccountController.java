@@ -2,11 +2,11 @@ package com.qa.blackjack.account;
 
 import com.qa.blackjack.exceptions.IncorrectEmailFormatException;
 import com.qa.blackjack.exceptions.NoSuchAccountException;
-import com.qa.blackjack.packet.ApiError;
-import com.qa.blackjack.packet.ApiResponse;
-import com.qa.blackjack.packet.ApiResponsePacket;
-import com.qa.blackjack.packet.ApiSuccess;
-import com.qa.blackjack.util.ApiErrorMessage;
+import com.qa.blackjack.response.ApiError;
+import com.qa.blackjack.response.ApiResponse;
+import com.qa.blackjack.response.ApiResponsePacket;
+import com.qa.blackjack.response.ApiSuccess;
+import com.qa.blackjack.response.ApiErrorMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/users/")
 public class UserAccountController {
     @Autowired
-    private UserAccountWrapper wrapper = new UserAccountWrapper();
+    private UserAccountRepositoryWrapper wrapper = new UserAccountRepositoryWrapper();
 
     @PostMapping("create")
     public ApiResponse createAccount(@RequestBody UserAccount user) {
@@ -79,7 +79,7 @@ public class UserAccountController {
     }
 
     @PostMapping("changePassword")
-    public ApiResponse changeAccountPassword(@RequestBody UserAccountRequestPasswordChange request) {
+    public ApiResponse changeAccountPassword(@RequestBody PI_UserAccountPasswordChange request) {
         try {
             return wrapper.newPassword(request.getEmail(), request.getOldPassword(), request.getNewPassword()) ?
                     new ApiSuccess() :
