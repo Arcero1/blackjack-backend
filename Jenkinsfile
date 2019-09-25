@@ -1,10 +1,9 @@
 pipeline {
   agent any
   stages {
-    stage('a test stage') {
+    stage('build') {
       steps {
         sh 'mvn -Dmaven.test.skip=true package'
-        sh 'pwd'
       }
     }
     stage('a docker test stage') {
@@ -12,6 +11,11 @@ pipeline {
         sh 'pwd'
         sh 'sudo docker-compose build'
         sh 'sudo docker-compose up -d'
+      }
+    }
+    stage('') {
+      steps {
+        sh 'mvn test -Dtest=!com.qa.blackjack.selenium*'
       }
     }
   }
