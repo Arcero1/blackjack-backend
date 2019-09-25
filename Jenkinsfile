@@ -4,7 +4,12 @@ pipeline {
     stage('a test stage') {
       steps {
         sh 'mvn -Dmaven.test.skip=true package'
-        sh 'nohup java -jar target/blackjack-extended-0.0.1-SNAPSHOT.jar &'
+      }
+    }
+    stage('a docker test stage') {
+      steps {
+        sh 'docker-compose build'
+        sh 'docker-compose up -d'
       }
     }
   }
