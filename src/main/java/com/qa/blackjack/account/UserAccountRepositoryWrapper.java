@@ -4,11 +4,13 @@ import com.qa.blackjack.exceptions.IncorrectEmailFormatException;
 import com.qa.blackjack.exceptions.NoSuchAccountException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- * This class is an interface between UserAccountController and UserAccountRepository
+ * This class wraps UserAccountRepository
+ * purpose: decreasing test effort
+ *
+ * @author BMarcysiak
+ * @version 0.1
  */
 @Repository
 public class UserAccountRepositoryWrapper {
@@ -23,7 +25,6 @@ public class UserAccountRepositoryWrapper {
         }
     }
 
-    @GetMapping
     boolean entryExists(String email) {
         return repository.findByEmail(email).isPresent();
     }
@@ -62,7 +63,7 @@ public class UserAccountRepositoryWrapper {
         }
     }
 
-    PO_UserAccountPublicInfo getPublicInfo(@RequestParam String email) throws NoSuchAccountException {
+    PO_UserAccountPublicInfo getPublicInfo(String email) throws NoSuchAccountException {
         return new PO_UserAccountPublicInfo(getEntry(email));
     }
 

@@ -6,6 +6,13 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class wraps UserProfileRepository
+ * purpose: decreasing test effort
+ *
+ * @author BMarcysiak
+ * @version 0.1
+ */
 @Component
 public class UserProfileWrapper {
     private UserProfileRepository repository;

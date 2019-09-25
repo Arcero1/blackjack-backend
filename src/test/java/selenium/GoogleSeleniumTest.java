@@ -1,4 +1,4 @@
-//package com.qa.blackjack;
+//package selenium;
 //
 //import org.junit.After;
 //import org.junit.Before;
