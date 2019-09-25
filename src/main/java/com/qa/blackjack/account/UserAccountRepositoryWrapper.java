@@ -17,9 +17,7 @@ public class UserAccountRepositoryWrapper {
     boolean createEntry(String email, String password) throws IncorrectEmailFormatException {
         try {
             UserAccount a = new UserAccount(email, password, email.substring(0, email.indexOf("@")));
-            //return repository.save(a).getEmail().equals(a.getEmail());
-            repository.save(a);
-            return true;
+            return repository.save(a).getEmail().equals(a.getEmail());
         } catch (StringIndexOutOfBoundsException e) {
             throw new IncorrectEmailFormatException();
         }
@@ -27,7 +25,7 @@ public class UserAccountRepositoryWrapper {
 
     @GetMapping
     boolean entryExists(String email) {
-        return repository.findByEmail("frank").isPresent();
+        return repository.findByEmail(email).isPresent();
     }
 
     public UserAccount getEntry(String email) throws NoSuchAccountException {
