@@ -3,7 +3,8 @@ pipeline {
   stages {
     stage('a test stage') {
       steps {
-        sh 'pwd'
+        sh '''pwd
+mvn -v'''
       }
     }
   }
