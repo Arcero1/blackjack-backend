@@ -9,6 +9,7 @@ pipeline {
     }
     stage('a docker test stage') {
       steps {
+        sh 'pwd'
         sh 'sudo docker-compose build'
         sh 'sudo docker-compose up'
       }
