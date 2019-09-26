@@ -29,7 +29,7 @@ The Goal at large can be split up into the following aims:
 
 ## 2. ARCHITECTURE
 ### 2a. Technologies Used
-![architecture diagram](./docs/architecture.svg)
+![architecture diagram](docs/architecture.png)
 
 ## 3. BACKEND
 
