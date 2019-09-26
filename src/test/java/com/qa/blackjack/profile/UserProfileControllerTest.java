@@ -26,7 +26,7 @@ public class UserProfileControllerTest {
     @InjectMocks
     UserProfileController controller = new UserProfileController();
     @Mock
-    UserProfileWrapper profileWrapper;
+    UserProfileRepositoryWrapper profileWrapper;
     @Mock
     UserAccountRepositoryWrapper accountWrapper;
     private String testName = "name";

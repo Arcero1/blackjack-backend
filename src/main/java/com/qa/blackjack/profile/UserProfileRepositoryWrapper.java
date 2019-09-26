@@ -14,7 +14,7 @@ import java.util.List;
  * @version 0.1
  */
 @Component
-public class UserProfileWrapper {
+public class UserProfileRepositoryWrapper {
     private UserProfileRepository repository;
 
     public void save(UserProfile profile) {

@@ -29,7 +29,7 @@ import java.util.List;
 @RequestMapping("/api/profiles/")
 public class UserProfileController {
     @Autowired
-    private UserProfileWrapper profileWrapper = new UserProfileWrapper();
+    private UserProfileRepositoryWrapper profileWrapper = new UserProfileRepositoryWrapper();
     @Autowired
     private UserAccountRepositoryWrapper accountWrapper = new UserAccountRepositoryWrapper();
 

@@ -4,7 +4,7 @@ import com.qa.blackjack.account.UserAccountRepositoryWrapper;
 import com.qa.blackjack.response.ApiError;
 import com.qa.blackjack.response.ApiSuccess;
 import com.qa.blackjack.profile.UserProfile;
-import com.qa.blackjack.profile.UserProfileWrapper;
+import com.qa.blackjack.profile.UserProfileRepositoryWrapper;
 import com.qa.blackjack.response.ApiErrorMessage;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +26,7 @@ public class GameControllerTest {
     @InjectMocks
     GameController controller = new GameController();
     @Mock
-    UserProfileWrapper profileWrapper;
+    UserProfileRepositoryWrapper profileWrapper;
     @Mock
     UserAccountRepositoryWrapper accountWrapper;
 
