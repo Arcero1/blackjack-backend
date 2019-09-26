@@ -5,6 +5,7 @@ is my submission for the QA Academy Individual Project.
 
 ## 1. INTRODUCTION
 ### 1a. The Brief
+Create an OOP-based application with utilisation of supporting tools, methodologies and technologies that encapsulate all core modules covered during training.
 
 ### 1b. Motivation
 The brief was to create a simple implementation of an online CRUD database. 
