@@ -31,9 +31,14 @@ The Goal at large can be split up into the following aims:
 ### 2a. Technologies Used
 ![architecture diagram](docs/architecture.png)
 
+### 2b. Database
+![database](docs/database.png)
+
 ## 3. BACKEND
+![class diagram](docs/classdiagram.png)
 
 ## 4. FRONTEND
+![wireframes](docs/wireframes.png)
 
 ## 5. CONCLUSION
 ### 5a. The Overall Result
