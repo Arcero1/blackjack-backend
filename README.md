@@ -37,6 +37,9 @@ Ultimately, such an implementation would be played just as blackjack would in a 
 ## 3. BACKEND
 ![class diagram](docs/classdiagram.png)
 
+###  3c. Testing
+https://raw.githubusercontent.com/Arcero1/blackjack-backend/docs/docs/reports/coverage/coverage-report.html
+
 ## 4. FRONTEND
 ### 4a. Visual Design
 The product as of submission conforms quite closely to the design created at the beginning of the mockup process,
