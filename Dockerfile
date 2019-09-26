@@ -1,7 +1,4 @@
-FROM adoptopenjdk/openjdk11:latest
-MAINTAINER bartekmarcysiak@gmail.com
+FROM openjdk:11-alpine
 EXPOSE 9000
-ADD ./target/blackjack-extended-0.0.1-SNAPSHOT.jar /api/blackjack-extended-0.0.1-SNAPSHOT.jar
+COPY ./target/blackjack-extended-0.0.1-SNAPSHOT.jar /api/blackjack-extended-0.0.1-SNAPSHOT.jar
 CMD java -jar api/blackjack-extended-0.0.1-SNAPSHOT.jar
-
-
