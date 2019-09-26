@@ -63,7 +63,7 @@ The frontend was built as a one page application on a React framework.
 
 ### 4a. Visual Design
 The product as of submission conforms quite closely to the design created at the beginning of the mockup process,
-as evidenced by the wireframes below. This is largely because the project was largely an exercise in conforming to the design,
+as evidenced by the wireframes below. This is because the project was largely an exercise in conforming to the design,
 rather than adapting it to ability or coder preferences.
 
 ![wireframes](docs/wireframes.png)
@@ -83,6 +83,11 @@ There are currently only 2 Selenium tests covering only a very small part of the
 ### 5a. The Overall Result
 
 ### 5a. Code Quality Checking
+Code quality was checked with Codacy.com. 
+
+The back-end received a grade of **B**, and 64 issues with 1 being "error prone" and the rest being code-style issues. The full report is **[HERE](https://app.codacy.com/manual/Arcero1/blackjack-backend/dashboard?bid=14210518)**.
+The front-end received a grade of **C**, and 559 issues with 91 being "error prone" and the rest being code-style issues. I am working on reducing this. The full report is **[HERE](https://app.codacy.com/manual/Arcero1/blackjack-frontend/dashboard?bid=14210519)**.
+
 
 ### 5b. Future Development
 Before any other features are added, there are many necessary fixes and streamlining that is required immediatelly. This includes:
