@@ -1,4 +1,6 @@
-package com.qa.blackjack.profile;
+package com.qa.blackjack.packet;
+
+import com.qa.blackjack.profile.UserProfile;
 
 public class PO_UserProfileLeaderBoardEntry {
     private String name;

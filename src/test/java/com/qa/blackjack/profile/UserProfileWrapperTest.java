@@ -1,8 +1,11 @@
 package com.qa.blackjack.profile;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Collections;
 import java.util.Optional;
@@ -11,9 +14,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UserProfileWrapperTest {
     @InjectMocks
-    private UserProfileRepositoryWrapper wrapper;
+    private UserProfileRepositoryWrapper wrapper = new UserProfileRepositoryWrapper();
     @Mock
     UserProfileRepository repository;
 

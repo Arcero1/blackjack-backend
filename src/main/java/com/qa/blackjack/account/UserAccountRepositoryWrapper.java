@@ -2,6 +2,7 @@ package com.qa.blackjack.account;
 
 import com.qa.blackjack.exceptions.IncorrectEmailFormatException;
 import com.qa.blackjack.exceptions.NoSuchAccountException;
+import com.qa.blackjack.packet.PO_UserAccountPublicInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

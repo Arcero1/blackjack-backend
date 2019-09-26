@@ -1,6 +1,5 @@
 package com.qa.blackjack.profile;
 
-import com.qa.blackjack.profile.UserProfile;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

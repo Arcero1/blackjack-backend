@@ -59,6 +59,12 @@ public class UserAccountRepositoryWrapperTest {
         assertEquals(testEntry, wrapper.getEntry(testEmail));
     }
 
+    @Test
+    public void testGetEntryById() throws NoSuchAccountException {
+        when(repository.findById(testEntry.getId())).thenReturn(Optional.of(testEntry));
+        assertEquals(testEntry, wrapper.getEntry(testEntry.getId()));
+    }
+
     @Test (expected = NoSuchAccountException.class)
     public void testGetEntryThrowsNoSuchAccountException() throws NoSuchAccountException {
         when(repository.findByEmail(testEmail)).thenReturn(Optional.empty());
@@ -69,6 +75,12 @@ public class UserAccountRepositoryWrapperTest {
     public void testGetEntryOrRoot() {
         when(repository.findByEmail(testEmail)).thenReturn(Optional.of(testEntry));
         assertEquals(testEntry, wrapper.getEntryOrRoot(testEmail));
+    }
+
+    @Test
+    public void testGetEntryOrRootById() {
+        when(repository.findById(testEntry.getId())).thenReturn(Optional.of(testEntry));
+        assertEquals(testEntry, wrapper.getEntryOrRoot(testEntry.getId()));
     }
 
     @Test
@@ -84,5 +96,17 @@ public class UserAccountRepositoryWrapperTest {
         assertEquals("", wrapper.getPublicInfo(testEmail).getAlias());
         assertEquals(0, wrapper.getPublicInfo(testEmail).getGamesPlayed());
         assertEquals(0, wrapper.getPublicInfo(testEmail).getGamesWon());
+    }
+
+    @Test
+    public void testNewAlias() throws NoSuchAccountException {
+        when(repository.findByEmail(testEmail)).thenReturn(Optional.of(testEntry));
+        wrapper.newAlias(testEmail, "new-alias");
+    }
+
+    @Test(expected = NoSuchAccountException.class)
+    public void testNewAliasThrowsExceptionWhenUserNotExists() throws NoSuchAccountException {
+        when(repository.findByEmail(testEmail)).thenReturn(Optional.empty());
+        wrapper.newAlias(testEmail, "new-alias");
     }
 }

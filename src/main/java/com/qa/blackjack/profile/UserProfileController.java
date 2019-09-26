@@ -1,6 +1,8 @@
 package com.qa.blackjack.profile;
 
 import com.qa.blackjack.account.UserAccountRepositoryWrapper;
+import com.qa.blackjack.packet.PI_UserProfileRequestCreate;
+import com.qa.blackjack.packet.PO_UserProfileLeaderBoardEntry;
 import com.qa.blackjack.response.ApiError;
 import com.qa.blackjack.response.ApiResponse;
 import com.qa.blackjack.response.ApiResponsePacket;
@@ -34,7 +36,7 @@ public class UserProfileController {
     private UserAccountRepositoryWrapper accountWrapper = new UserAccountRepositoryWrapper();
 
     @PostMapping("create")
-    public ApiResponse createProfile(@RequestBody UserProfileRequestCreate request) { // functional
+    public ApiResponse createProfile(@RequestBody PI_UserProfileRequestCreate request) { // functional
         if (profileWrapper.checkEntry(request.getName())) {
             return new ApiError(ApiErrorMessage.PROFILE_EXISTS);
         }
