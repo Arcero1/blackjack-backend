@@ -44,7 +44,7 @@ Ultimately, such an implementation would be played just as blackjack would in a 
 [surefire report](docs/reports/surefire/surefire-report.md)
 ([html version](docs/reports/surefire/surefire-report.html))
 
-An up to date surefire report is composed by the Jenkins CI server every time a build runs.
+An up to date surefire report is composed by the Jenkins CI server every time a build runs. The most recent report is stored on the GCP build server.
 
 ## 4. FRONTEND
 ### 4a. Visual Design
