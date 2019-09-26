@@ -86,6 +86,7 @@ There are currently only 2 Selenium tests covering only a very small part of the
 Code quality was checked with Codacy.com. 
 
 The back-end received a grade of **B**, and 64 issues with 1 being "error prone" and the rest being code-style issues. The full report is **[HERE](https://app.codacy.com/manual/Arcero1/blackjack-backend/dashboard?bid=14210518)**.
+
 The front-end received a grade of **C**, and 559 issues with 91 being "error prone" and the rest being code-style issues. I am working on reducing this. The full report is **[HERE](https://app.codacy.com/manual/Arcero1/blackjack-frontend/dashboard?bid=14210519)**.
 
 
@@ -95,5 +96,7 @@ Before any other features are added, there are many necessary fixes and streamli
 * Creating a large amount of tests for the frontend
 * Removing the bugs 
 * Streamlining the backend codebase
+
+The first feature after this would preferably be a session system to allow more than one user to play at the same time.
 
 Further features should not even be considered before these are completed. For an insight of the product, see the public [Trello](https://trello.com/b/x7tRWfsQ/blackjack)
