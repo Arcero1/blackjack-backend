@@ -39,7 +39,18 @@ The Goal at large can be split up into the following aims:
 
 ## 4. FRONTEND
 ### 4a. Visual Design
+The product as of submission conforms quite closely to the design created at the beginning of the mockup process,
+as evidenced by the wireframes below. This is largely because the project was largely an exercise in conforming to the design,
+rather than adapting it to ability or coder preferences.
+
 ![wireframes](docs/wireframes.png)
+
+The features that differ from the preliminary designs include:
+* an expanded bet panel, due to the general emptyness of the screen when no cards are present
+* no ranks are available as of yet for profiles and leaderboard
+* the profile tab is fixed at the top, instead of being pushed to the bottom when the dashboard is open
+
+The latter two are still planned features.
 
 ### 4b. Technical Design
 
