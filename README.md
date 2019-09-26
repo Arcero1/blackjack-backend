@@ -42,6 +42,8 @@ After a push, the repository is pulled down and a production build of each repos
 ![database](docs/jenkins.png)
 
 ## 3. BACKEND
+The backend is written in Java, with Maven as a package manager. The class diagram below shows the system in it's entirety as it is at submission date:
+
 ![class diagram](docs/classdiagram.png)
 In production, the java is packaged into a .jar and run on an openjdk:11-slim container. A newer container was used as some features of Java 10 were used in development.
 
@@ -79,8 +81,6 @@ The latter two are still planned features.
 There are currently only 2 Selenium tests covering only a very small part of the website functionality. They are the main priority, and definitely a big reason for the bugs that still exist in the webapp. The limiting factor was that Selenium tests require a large amount of infrastructure in the front-end which wasn't pre-planned and took too long to create.
 
 ## 5. CONCLUSION
-
-### 5a. The Overall Result
 
 ### 5a. Code Quality Checking
 Code quality was checked with Codacy.com. 
