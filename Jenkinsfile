@@ -8,7 +8,7 @@ pipeline {
     }
     stage('test') {
       steps {
-        sh 'mvn surefire-report:report -DoutputDirectory=~ -Dtest=!com.qa.blackjack.selenium*'
+        sh 'mvn surefire-report:report -DoutputDirectory=/home/bartekmarcysiak -Dtest=!com.qa.blackjack.selenium*'
       }
     }
     stage('build/deploy docker') {
