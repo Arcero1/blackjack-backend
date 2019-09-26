@@ -28,6 +28,8 @@ The Goal at large can be split up into the following aims:
 * Create a profile with 
 
 ## 2. ARCHITECTURE
+### 2a. Technologies Used
+![architecture diagram](https://raw.githubusercontent.com/Arcero1/blackjack-backend/master/docs/architecture.svg)
 
 ## 3. BACKEND
 
