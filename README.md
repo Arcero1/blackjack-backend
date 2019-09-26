@@ -39,12 +39,10 @@ Ultimately, such an implementation would be played just as blackjack would in a 
 
 ###  3c. Testing
 [coverage report](docs/reports/coverage/coverage-report.md)
-
-[coverage report (html version)](docs/reports/coverage/coverage-report.html)
+([html version](docs/reports/coverage/coverage-report.html))
 
 [surefire report](docs/reports/surefire/surefire-report.md)
-
-[surefire report (html version)](docs/reports/surefire/surefire-report.html)
+([html version](docs/reports/surefire/surefire-report.html))
 
 An up to date surefire report is composed by the Jenkins CI server every time a build runs.
 
