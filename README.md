@@ -24,14 +24,14 @@ the idea for this project was devised.
 The main aim of the project was the creation of a full-stack implementation of an online game of blackjack.
 Ultimately, such an implementation would be played just as blackjack would in a casino (save the gambling real money part).
 
-The Goal at large can be split up into the following aims:
-* Create a profile with 
-
-## 2. ARCHITECTURE
-### 2a. Technologies Used
+## 2. THE PROJECT AT LARGE
+### 2a. Architecture
 ![architecture diagram](docs/architecture.png)
 
 ### 2b. Database
+![database](docs/database.png)
+
+### 2c. Continuous Integration
 ![database](docs/database.png)
 
 ## 3. BACKEND
