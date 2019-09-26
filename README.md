@@ -32,7 +32,7 @@ Ultimately, such an implementation would be played just as blackjack would in a 
 ![database](docs/database.png)
 
 ### 2c. Continuous Integration
-![database](docs/database.png)
+![database](docs/jenkins.png)
 
 ## 3. BACKEND
 ![class diagram](docs/classdiagram.png)
