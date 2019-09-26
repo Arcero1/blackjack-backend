@@ -38,7 +38,12 @@ The Goal at large can be split up into the following aims:
 ![class diagram](docs/classdiagram.png)
 
 ## 4. FRONTEND
+### 4a. Visual Design
 ![wireframes](docs/wireframes.png)
+
+### 4b. Technical Design
+
+### 4b. Testing
 
 ## 5. CONCLUSION
 ### 5a. The Overall Result
