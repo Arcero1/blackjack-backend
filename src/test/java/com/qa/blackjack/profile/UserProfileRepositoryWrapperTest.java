@@ -16,7 +16,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class UserProfileWrapperTest {
+public class UserProfileRepositoryWrapperTest {
     @InjectMocks
     private UserProfileRepositoryWrapper wrapper = new UserProfileRepositoryWrapper();
     @Mock

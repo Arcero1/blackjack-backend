@@ -1,11 +1,16 @@
 package com.qa.blackjack.profile;
 
-import javax.persistence.*;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 
 @Entity
 public class UserProfile {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) private int id;
     @NotBlank private String name;
     private int uid = 1;
     private int credits = 300;

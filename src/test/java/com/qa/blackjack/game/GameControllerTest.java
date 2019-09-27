@@ -35,7 +35,7 @@ public class GameControllerTest {
 
     @Before
     @Test
-    public void testStart() throws Exception {
+    public void testStart() {
         String testIncorrectName = "incorrect-name";
 
         when(profileWrapper.getProfile(testName)).thenReturn(testProfile);

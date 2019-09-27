@@ -19,10 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GameController {
     private int betAmount = 0;
-    private UserProfile profile;
-
-    // these need to remain package-private
-    // they are set by tests, but public setters would be unsafe
+    UserProfile profile;
     Hand player = new Hand();
     Hand dealer = new Hand();
     Pack deck;

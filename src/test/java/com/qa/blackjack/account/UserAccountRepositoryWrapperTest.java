@@ -30,8 +30,6 @@ public class UserAccountRepositoryWrapperTest {
 
     private String testPassword = "test-pass";
     private UserAccount testEntry = new UserAccount(testEmail, testPassword);
-    private UserAccount testEntryFail = new UserAccount(testEmailFail, testPassword);
-
 
     @Test
     public void testCreateEntry() throws IncorrectEmailFormatException {
@@ -45,7 +43,7 @@ public class UserAccountRepositoryWrapperTest {
     }
 
     @Test
-    public void testEntryExists() throws IncorrectEmailFormatException {
+    public void testEntryExists() {
         when(repository.findByEmail(testEmail)).thenReturn(Optional.of(testEntry));
         when(repository.findByEmail(testEmailFail)).thenReturn(Optional.empty());
 
@@ -102,6 +100,7 @@ public class UserAccountRepositoryWrapperTest {
     public void testNewAlias() throws NoSuchAccountException {
         when(repository.findByEmail(testEmail)).thenReturn(Optional.of(testEntry));
         wrapper.newAlias(testEmail, "new-alias");
+        assertTrue(true); // will return true unless exception is thrown
     }
 
     @Test(expected = NoSuchAccountException.class)

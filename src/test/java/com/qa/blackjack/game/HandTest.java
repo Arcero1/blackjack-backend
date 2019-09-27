@@ -1,6 +1,5 @@
 package com.qa.blackjack.game;
 
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -8,6 +7,7 @@ import org.junit.Test;
 import javax.naming.InvalidNameException;
 
 import static org.junit.Assert.*;
+
 
 public class HandTest {
     private static Hand hand;
