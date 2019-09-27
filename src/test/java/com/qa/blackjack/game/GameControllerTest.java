@@ -27,8 +27,6 @@ public class GameControllerTest {
     GameController controller = new GameController();
     @Mock
     UserProfileRepositoryWrapper profileWrapper;
-    @Mock
-    UserAccountRepositoryWrapper accountWrapper;
 
     private String testName = "profile-name";
     private UserProfile testProfile = new UserProfile(testName);
@@ -36,8 +34,6 @@ public class GameControllerTest {
     @Before
     @Test
     public void testStart() {
-        String testIncorrectName = "incorrect-name";
-
         when(profileWrapper.getProfile(testName)).thenReturn(testProfile);
         assertEquals(ApiSuccess.class, controller.start(testName).getClass());
 
