@@ -8,6 +8,7 @@ import com.qa.blackjack.profile.UserProfile;
 import com.qa.blackjack.profile.UserProfileRepositoryWrapper;
 import com.qa.blackjack.response.ApiErrorMessage;
 import com.qa.blackjack.response.ApiStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -21,7 +22,9 @@ public class GameController {
     Pack deck;
     UserProfile profile;
 
+    @Autowired
     private UserProfileRepositoryWrapper profileWrapper = new UserProfileRepositoryWrapper();
+    @Autowired
     private UserAccountRepositoryWrapper accountWrapper = new UserAccountRepositoryWrapper();
 
     @GetMapping("/api/game/start")
