@@ -2,7 +2,6 @@
 This repository, along with its frontend counterpart found [here](https://github.com/Arcero1/blackjack-frontend),
 is my submission for the QA Academy Individual Project.
 
-
 ## 1. INTRODUCTION
 ### 1a. The Brief
 Create an OOP-based application with utilisation of supporting tools, methodologies and technologies that encapsulate all core modules covered during training.
@@ -53,7 +52,7 @@ The backend is written in Java, with Maven as a package manager. The class diagr
 ### 3a. Container/Production Build
 In production, the java is packaged into a .jar and run on an openjdk:11-slim container (newer java version than contained in the suggested openjdk:8-alpine was necessary due to Java 10 usage).
 
-###  3b. Testing
+### 3b. Testing
 Unit testing was completed using JUnit and Mockito. Where Spring was not involved, the code was developed in a (semi) test-driven way. As Spring was not known at the beginning of the project, it was difficult to apply the principle to development. The test and coverage results are shown below:
 
 [coverage report](docs/reports/coverage/coverage-report.md)
@@ -77,9 +76,9 @@ rather than adapting it to ability or coder preferences.
 ![wireframes](docs/wireframes.png)
 
 The features that differ from the preliminary designs include:
-* an expanded bet panel, due to the general emptyness of the screen when no cards are present
-* no ranks are available as of yet for profiles and leaderboard
-* the profile tab is fixed at the top, instead of being pushed to the bottom when the dashboard is open
+  * an expanded bet panel, due to the general emptyness of the screen when no cards are present
+  * no ranks are available as of yet for profiles and leaderboard
+  * the profile tab is fixed at the top, instead of being pushed to the bottom when the dashboard is open
 
 The latter two are still planned features.
 
@@ -95,13 +94,12 @@ The back-end received a grade of **B**, and 64 issues with 1 being "error prone"
 
 The front-end received a grade of **C**, and 559 issues with 91 being "error prone" and the rest being code-style issues. I am working on reducing this. The full report is **[HERE](https://app.codacy.com/manual/Arcero1/blackjack-frontend/dashboard?bid=14210519)**.
 
-
 ### 5b. Future Development
 Before any other features are added, there are many necessary fixes and streamlining that is required immediatelly. This includes:
-* Finishing automated tests for the backend
-* Creating a large amount of tests for the frontend
-* Removing the bugs 
-* Streamlining the backend codebase
+  * Finishing automated tests for the backend
+  * Creating a large amount of tests for the frontend
+  * Removing the bugs 
+  * Streamlining the backend codebase
 
 The first feature after this would preferably be a session system to allow more than one user to play at the same time.
 
