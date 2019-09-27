@@ -1,3 +1,5 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/87ec06d97fc9486c8a43764568671f64)](https://www.codacy.com/manual/Arcero1/blackjack-backend?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Arcero1/blackjack-backend&amp;utm_campaign=Badge_Grade)
+
 ## BlackJack: An Application
 This repository, along with its frontend counterpart found [here](https://github.com/Arcero1/blackjack-frontend),
 is my submission for the QA Academy Individual Project.
