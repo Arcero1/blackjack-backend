@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-public class UserProfileWrapper {
+public class UserProfileRepositoryWrapper {
     private UserProfileRepository repository;
 
     @Transactional
