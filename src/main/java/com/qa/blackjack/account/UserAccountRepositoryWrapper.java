@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 public class UserAccountRepositoryWrapper {
     private UserAccountRepository repository;
 
+    @Transactional
     boolean createEntry(String email, String password) throws IncorrectEmailFormatException {
         try {
             UserAccount a = new UserAccount(email, password, email.substring(0, email.indexOf("@")));

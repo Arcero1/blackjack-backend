@@ -17,6 +17,7 @@ import java.util.List;
 public class UserProfileWrapper {
     private UserProfileRepository repository;
 
+    @Transactional
     public void save(UserProfile profile) {
         repository.save(profile);
     }
