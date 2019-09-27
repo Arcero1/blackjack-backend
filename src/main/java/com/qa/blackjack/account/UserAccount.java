@@ -1,7 +1,5 @@
 package com.qa.blackjack.account;
 
-import com.google.gson.JsonObject;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,13 +22,13 @@ public class UserAccount {
         this.email = email;
         this.password = password;
     }
-    public UserAccount(String email, String password, String alias) {
+    UserAccount(String email, String password, String alias) {
         this.email = email;
         this.password = password;
         this.alias = alias;
     }
 
-    public void hasPlayed(boolean hasWon) {
+    void hasPlayed(boolean hasWon) {
         this.gamesPlayed++;
         this.gamesWon += hasWon ? 1 : 0;
     }
@@ -40,6 +38,7 @@ public class UserAccount {
     }
 
     // GETTERS AND SETTERS /////////////////////////////////////////////////////////////////////////////////////////////
+    // must be public //////////////////////////////////////////////////////////////////////////////////////////////////
     public void setAlias(String alias) {
         this.alias = alias;
     }

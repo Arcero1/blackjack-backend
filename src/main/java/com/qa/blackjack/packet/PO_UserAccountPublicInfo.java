@@ -1,4 +1,6 @@
-package com.qa.blackjack.account;
+package com.qa.blackjack.packet;
+
+import com.qa.blackjack.account.UserAccount;
 
 public class PO_UserAccountPublicInfo {
     private int id;

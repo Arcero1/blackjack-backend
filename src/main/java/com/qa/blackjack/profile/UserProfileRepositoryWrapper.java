@@ -2,20 +2,13 @@ package com.qa.blackjack.profile;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * This class wraps UserProfileRepository
- * purpose: decreasing test effort
- *
- * @author BMarcysiak
- * @version 0.1
- */
-@Repository
+@RestController
 public class UserProfileWrapper {
     private UserProfileRepository repository;
 
@@ -37,10 +30,11 @@ public class UserProfileWrapper {
     }
 
     @Transactional
-    public UserProfile getProfile(String name) throws Exception {
-        return repository.findByName(name).orElseThrow(Exception::new);
+    public UserProfile getProfile(String name) {
+        return repository.findByName(name).orElse(new UserProfile());
     }
 
+    @Transactional
     public boolean checkEntry(String name) {
         return repository.findByName(name).isPresent();
     }

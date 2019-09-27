@@ -5,7 +5,7 @@ import com.qa.blackjack.response.ApiError;
 import com.qa.blackjack.response.ApiResponse;
 import com.qa.blackjack.response.ApiSuccess;
 import com.qa.blackjack.profile.UserProfile;
-import com.qa.blackjack.profile.UserProfileWrapper;
+import com.qa.blackjack.profile.UserProfileRepositoryWrapper;
 import com.qa.blackjack.response.ApiErrorMessage;
 import com.qa.blackjack.response.ApiStatus;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +21,7 @@ public class GameController {
     Pack deck;
     UserProfile profile;
 
-    private UserProfileWrapper profileWrapper = new UserProfileWrapper();
+    private UserProfileRepositoryWrapper profileWrapper = new UserProfileRepositoryWrapper();
     private UserAccountRepositoryWrapper accountWrapper = new UserAccountRepositoryWrapper();
 
     @GetMapping("/api/game/start")

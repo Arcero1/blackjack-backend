@@ -1,11 +1,11 @@
-package com.qa.blackjack.profile;
+package com.qa.blackjack.packet;
 
-public class UserProfileRequestCreate {
+public class PI_UserProfileRequestCreate {
     private String name;
     private String owner;
 
-    UserProfileRequestCreate() {}
-    UserProfileRequestCreate(String name, String owner) {
+    public PI_UserProfileRequestCreate() {}
+    public PI_UserProfileRequestCreate(String name, String owner) {
         this.name = name;
         this.owner = owner;
     }

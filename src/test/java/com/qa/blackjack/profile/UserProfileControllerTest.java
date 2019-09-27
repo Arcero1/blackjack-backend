@@ -2,6 +2,7 @@ package com.qa.blackjack.profile;
 
 import com.qa.blackjack.account.UserAccount;
 import com.qa.blackjack.account.UserAccountRepositoryWrapper;
+import com.qa.blackjack.packet.PI_UserProfileRequestCreate;
 import com.qa.blackjack.response.ApiError;
 import com.qa.blackjack.response.ApiResponsePacket;
 import com.qa.blackjack.response.ApiSuccess;
@@ -26,7 +27,7 @@ public class UserProfileControllerTest {
     @InjectMocks
     UserProfileController controller = new UserProfileController();
     @Mock
-    UserProfileWrapper profileWrapper;
+    UserProfileRepositoryWrapper profileWrapper;
     @Mock
     UserAccountRepositoryWrapper accountWrapper;
     private String testName = "name";
@@ -43,9 +44,9 @@ public class UserProfileControllerTest {
         when(profileWrapper.checkEntry(testNameFail)).thenReturn(true);
         when(accountWrapper.getEntryOrRoot(testAccountName)).thenReturn(testAccount);
 
-        assertEquals(ApiSuccess.class, controller.createProfile(new UserProfileRequestCreate(testName, testAccountName)).getClass());
-        assertEquals(ApiError.class, controller.createProfile(new UserProfileRequestCreate(testNameFail, testAccountName)).getClass());
-        assertEquals(ApiErrorMessage.PROFILE_EXISTS.toString(), controller.createProfile(new UserProfileRequestCreate(testNameFail, testAccountName)).getMessage());
+        assertEquals(ApiSuccess.class, controller.createProfile(new PI_UserProfileRequestCreate(testName, testAccountName)).getClass());
+        assertEquals(ApiError.class, controller.createProfile(new PI_UserProfileRequestCreate(testNameFail, testAccountName)).getClass());
+        assertEquals(ApiErrorMessage.PROFILE_EXISTS.toString(), controller.createProfile(new PI_UserProfileRequestCreate(testNameFail, testAccountName)).getMessage());
     }
 
     @Test

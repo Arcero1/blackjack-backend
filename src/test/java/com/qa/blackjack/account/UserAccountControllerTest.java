@@ -2,6 +2,8 @@ package com.qa.blackjack.account;
 
 import com.qa.blackjack.exceptions.IncorrectEmailFormatException;
 import com.qa.blackjack.exceptions.NoSuchAccountException;
+import com.qa.blackjack.packet.PI_UserAccountPasswordChange;
+import com.qa.blackjack.packet.PO_UserAccountPublicInfo;
 import com.qa.blackjack.response.ApiError;
 import com.qa.blackjack.response.ApiSuccess;
 import com.qa.blackjack.response.ApiErrorMessage;
