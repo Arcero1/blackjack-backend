@@ -37,7 +37,7 @@ The database used was based on MySQL and featured two tables linked using a simp
 The continuous integration was facilitated with Jenkins.
 There are two seperate pipelines - one for the front end and another for the back, both triggered by a push to their respective github repositories.
 
-After a push, the repository is pulled down and a production build of each repository is built on the Jenkins server. The builds are then copied to two seperate containers, which are then built and spun up.
+After a push, the repository is pulled down and a production build of each repository is built on the Jenkins server. The builds are then copied to two seperate containers, which are then built and spun up. The backend pipeline also includes a test step.
 
 ![jenkins](docs/jenkins.png)
 
@@ -49,9 +49,11 @@ Notes:
 The backend is written in Java, with Maven as a package manager. The class diagram below shows the system in it's entirety as it is at submission date:
 
 ![class diagram](docs/classdiagram.png)
-In production, the java is packaged into a .jar and run on an openjdk:11-slim container. A newer container was used as some features of Java 10 were used in development.
 
-###  3c. Testing
+### 3a. Container/Production Build
+In production, the java is packaged into a .jar and run on an openjdk:11-slim container (newer java version than contained in the suggested openjdk:8-alpine was necessary due to Java 10 usage).
+
+###  3b. Testing
 Unit testing was completed using JUnit and Mockito. Where Spring was not involved, the code was developed in a (semi) test-driven way. As Spring was not known at the beginning of the project, it was difficult to apply the principle to development. The test and coverage results are shown below:
 
 [coverage report](docs/reports/coverage/coverage-report.md)
@@ -65,7 +67,7 @@ An up to date surefire report is composed by the Jenkins CI server every time a 
 The test coverage is currently at 80%, with much of the lack due to basic classes with only getters and setters that were determined to be unimportant to test. The remainder is due to difficult-to-test classes that require time that is currently not available. Tests for these classes will be devised as soon as possible.
 
 ## 4. FRONTEND
-The frontend was built as a one page application on a React framework.
+The frontend was built as a one page application (OPM) on a React framework.
 
 ### 4a. Visual Design
 The product as of submission conforms quite closely to the design created at the beginning of the mockup process,
