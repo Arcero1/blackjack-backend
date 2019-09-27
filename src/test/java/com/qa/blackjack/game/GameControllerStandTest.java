@@ -1,16 +1,34 @@
 package com.qa.blackjack.game;
 
+import com.qa.blackjack.account.UserAccountRepositoryWrapper;
+import com.qa.blackjack.profile.UserProfile;
+import com.qa.blackjack.profile.UserProfileRepositoryWrapper;
 import com.qa.blackjack.response.ApiSuccess;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.naming.InvalidNameException;
 
 import static org.junit.Assert.assertEquals;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class GameControllerStandTest {
+    @InjectMocks
     private static GameController controller = new GameController();
+    @Mock
+    UserProfile profile;
+    @Mock
+    UserProfileRepositoryWrapper profileWrapper;
+    @Mock
+    UserAccountRepositoryWrapper accountWrapper;
+
     private static Card card5;
     private static Card card6;
     private static Card card10;
