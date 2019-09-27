@@ -39,7 +39,10 @@ There are two seperate pipelines - one for the front end and another for the bac
 
 After a push, the repository is pulled down and a production build of each repository is built on the Jenkins server. The builds are then copied to two seperate containers, which are then built and spun up.
 
-![database](docs/jenkins.png)
+![jenkins](docs/jenkins.png)
+
+Notes:
+* Manual hooks broke at some point. This was dealt with by adding GitHub Jenkins credentials and having jenkins manage hooks itself (it was then necessary to make Jenkins ignore branches other than *master*).
 
 ## 3. BACKEND
 The backend is written in Java, with Maven as a package manager. The class diagram below shows the system in it's entirety as it is at submission date:
