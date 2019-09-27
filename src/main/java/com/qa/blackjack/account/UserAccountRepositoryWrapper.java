@@ -99,6 +99,7 @@ public class UserAccountRepositoryWrapper {
                 .orElseThrow(Exception::new);
     }
 
+    @Transactional
     boolean deleteEntry(String email, String password) { // functional
         try {
             if (!checkPassword(email, password)) {
@@ -113,6 +114,7 @@ public class UserAccountRepositoryWrapper {
         return true;
     }
 
+    @Transactional
     public void hasPlayed(boolean hasWon, int id) {
         repository.findById(id).ifPresent(user -> {
             user.hasPlayed(hasWon);

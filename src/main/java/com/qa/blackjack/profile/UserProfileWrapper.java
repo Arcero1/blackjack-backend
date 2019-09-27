@@ -2,6 +2,7 @@ package com.qa.blackjack.profile;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.List;
  * @author BMarcysiak
  * @version 0.1
  */
-@Component
+@Repository
 public class UserProfileWrapper {
     private UserProfileRepository repository;
 
