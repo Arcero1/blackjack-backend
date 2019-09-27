@@ -23,16 +23,19 @@ public class UserProfileWrapper {
         repository.save(profile);
     }
 
+    @Transactional
     public List<UserProfile> getTopTen() throws Exception {
         return repository.findTop10ByOrderByCreditsDesc().orElseThrow(Exception::new);
     }
 
+    @Transactional
     public String getCredits(String name) throws Exception {
         return repository.findByName(name)
                 .map(UserProfile::creditsToString)
                 .orElseThrow(Exception::new);
     }
 
+    @Transactional
     public UserProfile getProfile(String name) throws Exception {
         return repository.findByName(name).orElseThrow(Exception::new);
     }
@@ -41,11 +44,13 @@ public class UserProfileWrapper {
         return repository.findByName(name).isPresent();
     }
 
+    @Transactional
     public boolean deleteEntry(String name) {
         repository.deleteByName(name);
         return repository.findByName(name).isPresent();
     }
 
+    @Transactional
     public List<UserProfile> getAllProfilesOf(int uid) {
         return repository.findAllByUid(uid).orElse(new ArrayList<>());
     }
