@@ -2,6 +2,7 @@ package com.qa.blackjack.game;
 
 import com.qa.blackjack.response.ApiSuccess;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import javax.naming.InvalidNameException;
@@ -9,14 +10,17 @@ import javax.naming.InvalidNameException;
 import static org.junit.Assert.assertEquals;
 
 public class GameControllerStandTest {
-    private GameController controller = new GameController();        Card card10 = new  Card("King", "Hearts");
-    private Card card5;
-    private Card card6;
-    private Card card11;
+    private static GameController controller = new GameController();
+    private static Card card5;
+    private static Card card6;
+    private static Card card10;
+    private static Card card11;
 
-    private GameControllerStandTest() throws InvalidNameException {
+    @BeforeClass
+    public static void setUp() throws InvalidNameException {
         card5 = new  Card("5", "Hearts");
         card6 = new  Card("6", "Hearts");
+        card10 = new  Card("King", "Hearts");
         card11 = new Ace("Hearts");
     }
 
