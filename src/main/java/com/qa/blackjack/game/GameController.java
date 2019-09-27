@@ -22,9 +22,7 @@ public class GameController {
     Pack deck;
     UserProfile profile;
 
-    @Autowired
     private UserProfileRepositoryWrapper profileWrapper = new UserProfileRepositoryWrapper();
-    @Autowired
     private UserAccountRepositoryWrapper accountWrapper = new UserAccountRepositoryWrapper();
 
     @GetMapping("/api/game/start")
@@ -118,5 +116,15 @@ public class GameController {
         }
 
         profileWrapper.save(profile);
+    }
+
+    @Autowired
+    private void setUserAccountRepositoryWrapper(UserAccountRepositoryWrapper userAccountRepositoryWrapper) {
+        this.accountWrapper = userAccountRepositoryWrapper;
+    }
+
+    @Autowired
+    private void setUserProfileRepositoryWrapper(UserProfileRepositoryWrapper userProfileRepositoryWrapper) {
+        this.profileWrapper = userProfileRepositoryWrapper;
     }
 }

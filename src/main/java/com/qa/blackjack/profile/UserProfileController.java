@@ -30,9 +30,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/profiles/")
 public class UserProfileController {
-    @Autowired
     private UserProfileRepositoryWrapper profileWrapper = new UserProfileRepositoryWrapper();
-    @Autowired
     private UserAccountRepositoryWrapper accountWrapper = new UserAccountRepositoryWrapper();
 
     @PostMapping("create")
@@ -100,5 +98,16 @@ public class UserProfileController {
     @GetMapping("delete")
     public ApiResponse deleteUserProfile(@RequestParam String name) { // functional
         return profileWrapper.deleteEntry(name) ? new ApiSuccess() : new ApiError(ApiErrorMessage.UNEXPECTED_ERROR);
+    }
+
+
+    @Autowired
+    private void setUserAccountRepositoryWrapper(UserAccountRepositoryWrapper userAccountRepositoryWrapper) {
+        this.accountWrapper = userAccountRepositoryWrapper;
+    }
+
+    @Autowired
+    private void setUserProfileRepositoryWrapper(UserProfileRepositoryWrapper userProfileRepositoryWrapper) {
+        this.profileWrapper = userProfileRepositoryWrapper;
     }
 }

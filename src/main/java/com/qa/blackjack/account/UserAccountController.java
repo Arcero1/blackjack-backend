@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/users/")
 public class UserAccountController {
-    @Autowired
     private UserAccountRepositoryWrapper wrapper = new UserAccountRepositoryWrapper();
 
     @PostMapping("create")
@@ -95,5 +94,10 @@ public class UserAccountController {
         return wrapper.deleteEntry(user.getEmail(), user.getPassword()) ?
                 new ApiSuccess() :
                 new ApiError(ApiErrorMessage.WRONG_PASSWORD);
+    }
+
+    @Autowired
+    private void setUserAccountRepositoryWrapper(UserAccountRepositoryWrapper userAccountRepositoryWrapper) {
+        this.wrapper = userAccountRepositoryWrapper;
     }
 }
