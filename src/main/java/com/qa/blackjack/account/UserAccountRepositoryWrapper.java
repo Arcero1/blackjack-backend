@@ -5,6 +5,7 @@ import com.qa.blackjack.exceptions.NoSuchAccountException;
 import com.qa.blackjack.packet.PO_UserAccountPublicInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -15,11 +16,11 @@ import org.springframework.transaction.annotation.Transactional;
  * @author BMarcysiak
  * @version 0.1
  */
-@Repository
+@Service
+@Transactional
 public class UserAccountRepositoryWrapper {
     private UserAccountRepository repository;
 
-    @Transactional
     boolean createEntry(String email, String password) throws IncorrectEmailFormatException {
         try {
             UserAccount a = new UserAccount(email, password, email.substring(0, email.indexOf("@")));
@@ -100,7 +101,6 @@ public class UserAccountRepositoryWrapper {
                 .orElseThrow(Exception::new);
     }
 
-    @Transactional
     boolean deleteEntry(String email, String password) { // functional
         try {
             if (!checkPassword(email, password)) {
@@ -111,11 +111,9 @@ public class UserAccountRepositoryWrapper {
         } catch (Exception ignore) {
             // no such user => the result is correct anyway
         }
-
         return true;
     }
 
-    @Transactional
     public void hasPlayed(boolean hasWon, int id) {
         repository.findById(id).ifPresent(user -> {
             user.hasPlayed(hasWon);
@@ -123,7 +121,6 @@ public class UserAccountRepositoryWrapper {
         });
     }
 
-    // SETTER BASED DEPENDENCY INJECTION FOR REPOSITORIES //////////////////////////////////////////////////////////////
     @Autowired
     public final void setRepository(UserAccountRepository repository) {
         this.repository = repository;
