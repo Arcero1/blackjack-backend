@@ -4,7 +4,6 @@ import com.qa.blackjack.exceptions.IncorrectEmailFormatException;
 import com.qa.blackjack.exceptions.NoSuchAccountException;
 import com.qa.blackjack.packet.PO_UserAccountPublicInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserAccountRepositoryWrapper {
     private UserAccountRepository repository;
 
-    boolean createEntry(String email, String password) throws IncorrectEmailFormatException {
+    public boolean createEntry(String email, String password) throws IncorrectEmailFormatException {
         try {
             UserAccount a = new UserAccount(email, password, email.substring(0, email.indexOf("@")));
             return repository.save(a).getEmail().equals(a.getEmail());
@@ -30,7 +29,7 @@ public class UserAccountRepositoryWrapper {
         }
     }
 
-    boolean entryExists(String email) {
+    public boolean entryExists(String email) {
         return repository.findByEmail(email).isPresent();
     }
 
@@ -68,11 +67,11 @@ public class UserAccountRepositoryWrapper {
         }
     }
 
-    PO_UserAccountPublicInfo getPublicInfo(String email) throws NoSuchAccountException {
+    public PO_UserAccountPublicInfo getPublicInfo(String email) throws NoSuchAccountException {
         return new PO_UserAccountPublicInfo(getEntry(email));
     }
 
-    boolean newAlias(String email, String alias) throws NoSuchAccountException { // functional
+    public boolean newAlias(String email, String alias) throws NoSuchAccountException { // functional
         UserAccount user = getEntry(email);
         user.setAlias(alias);
         repository.save(user);
@@ -80,7 +79,7 @@ public class UserAccountRepositoryWrapper {
     }
 
 
-    boolean newPassword(String email, String oldPassword, String newPassword) throws Exception {
+    public boolean newPassword(String email, String oldPassword, String newPassword) throws Exception {
         UserAccount user;
         user = repository
                 .findByEmail(email)
@@ -95,13 +94,13 @@ public class UserAccountRepositoryWrapper {
         return true;
     }
 
-    boolean checkPassword(String email, String password) throws Exception {
+    public boolean checkPassword(String email, String password) throws Exception {
         return repository.findByEmail(email)
                 .map(userAccount -> userAccount.comparePassword(password))
                 .orElseThrow(Exception::new);
     }
 
-    boolean deleteEntry(String email, String password) { // functional
+    public boolean deleteEntry(String email, String password) { // functional
         try {
             if (!checkPassword(email, password)) {
                 return false;

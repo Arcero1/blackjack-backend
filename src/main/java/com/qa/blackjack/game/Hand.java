@@ -3,17 +3,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Hand {
-    List<Card> cards = new ArrayList<>();
+    private List<Card> cards = new ArrayList<>();
 
-    void addCard(Card card) {
+    public void addCard(Card card) {
         cards.add(card);
     }
 
-    void clearHand() {
+    public void clearHand() {
         cards.clear();
     }
 
-    int getScore() {
+    public int getScore() {
         int score = cards.stream().mapToInt(Card::getValue).sum();
 
         for(int i = 0; i < getNumAces(); i++) {
@@ -23,11 +23,11 @@ class Hand {
         return score;
     }
 
-    long getNumAces() {
+    public long getNumAces() {
         return cards.stream().filter(Card::isAce).count();
     }
 
-    int getNumCards() {
+    public int getNumCards() {
         return cards.size();
     }
 }

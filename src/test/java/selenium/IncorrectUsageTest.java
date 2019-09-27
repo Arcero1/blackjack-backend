@@ -1,9 +1,6 @@
 package selenium;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import static org.junit.Assert.assertTrue;
@@ -12,7 +9,7 @@ public class IncorrectUsageTest {
     private static ChromeDriver driver;
 
     @BeforeClass
-    public static void setup() {
+    public static void setUp() {
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\Arcero\\blackjack-backend\\src\\test\\resources\\chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().window().maximize();
@@ -44,8 +41,8 @@ public class IncorrectUsageTest {
         }
     }
 
-    @After
-    public void teardown() {
+    @AfterClass
+    public static void tearDown() {
         driver.close();
     }
 }

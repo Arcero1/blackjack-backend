@@ -9,25 +9,29 @@ import com.qa.blackjack.profile.UserProfileRepositoryWrapper;
 import com.qa.blackjack.response.ApiErrorMessage;
 import com.qa.blackjack.response.ApiStatus;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 
 @CrossOrigin
 @RestController
 public class GameController {
+    private int betAmount = 0;
+    private UserProfile profile;
+
+    // these need to remain package-private
+    // they are set by tests, but public setters would be unsafe
     Hand player = new Hand();
     Hand dealer = new Hand();
-    private int betAmount = 0;
-
     Pack deck;
-    UserProfile profile;
 
     private UserProfileRepositoryWrapper profileWrapper = new UserProfileRepositoryWrapper();
     private UserAccountRepositoryWrapper accountWrapper = new UserAccountRepositoryWrapper();
 
     @GetMapping("/api/game/start")
-    public ApiResponse start(@RequestParam String profileName) { // should only be called at the start of a session
-
+    public ApiResponse start(@RequestParam String profileName) {
         this.resetScores();
 
         try {
