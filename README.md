@@ -2,6 +2,7 @@
 
 ## BlackJack: An Application 
 [LIVE PROJECT LINK](getyourbj.com)
+
 This repository, along with its frontend counterpart found [here](https://github.com/Arcero1/blackjack-frontend),
 is my submission for the QA Academy Individual Project.
 
